@@ -1,0 +1,1 @@
+/usr/bin/c++    -D_LINUX    CMakeFiles/tessellatedtri.dir/src/tessellatedtri/tessellatedtri.cpp.o  -o bin/tessellatedtri -rdynamic -L/home/fzhan/Downloads/sb6code-master/lib lib/libsb6.a -Wl,-rpath,/home/fzhan/Downloads/sb6code-master/lib 

@@ -1,0 +1,1 @@
+/usr/bin/c++    -D_LINUX    CMakeFiles/equirectangular.dir/src/equirectangular/equirectangular.cpp.o  -o bin/equirectangular -rdynamic -L/home/fzhan/Downloads/sb6code-master/lib lib/libsb6.a -Wl,-rpath,/home/fzhan/Downloads/sb6code-master/lib 

@@ -1,0 +1,1 @@
+/usr/bin/c++    -D_LINUX    CMakeFiles/clipdistance.dir/src/clipdistance/clipdistance.cpp.o  -o bin/clipdistance -rdynamic -L/home/fzhan/Downloads/sb6code-master/lib lib/libsb6.a -Wl,-rpath,/home/fzhan/Downloads/sb6code-master/lib 

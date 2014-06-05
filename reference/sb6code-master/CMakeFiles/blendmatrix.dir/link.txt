@@ -1,0 +1,1 @@
+/usr/bin/c++    -D_LINUX    CMakeFiles/blendmatrix.dir/src/blendmatrix/blendmatrix.cpp.o  -o bin/blendmatrix -rdynamic -L/home/fzhan/Downloads/sb6code-master/lib lib/libsb6.a -Wl,-rpath,/home/fzhan/Downloads/sb6code-master/lib 

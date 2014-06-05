@@ -1,0 +1,1 @@
+/usr/bin/c++    -D_LINUX    CMakeFiles/envmapsphere.dir/src/envmapsphere/envmapsphere.cpp.o  -o bin/envmapsphere -rdynamic -L/home/fzhan/Downloads/sb6code-master/lib lib/libsb6.a -Wl,-rpath,/home/fzhan/Downloads/sb6code-master/lib 

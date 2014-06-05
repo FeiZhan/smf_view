@@ -1,0 +1,1 @@
+/usr/bin/c++    -D_LINUX    CMakeFiles/instancedattribs.dir/src/instancedattribs/instancedattribs.cpp.o  -o bin/instancedattribs -rdynamic -L/home/fzhan/Downloads/sb6code-master/lib lib/libsb6.a -Wl,-rpath,/home/fzhan/Downloads/sb6code-master/lib 

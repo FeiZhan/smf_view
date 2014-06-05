@@ -1,0 +1,1 @@
+/usr/bin/c++    -D_LINUX    CMakeFiles/basicfbo.dir/src/basicfbo/basicfbo.cpp.o  -o bin/basicfbo -rdynamic -L/home/fzhan/Downloads/sb6code-master/lib lib/libsb6.a -Wl,-rpath,/home/fzhan/Downloads/sb6code-master/lib 

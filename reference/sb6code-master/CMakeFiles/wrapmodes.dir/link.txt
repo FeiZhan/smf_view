@@ -1,0 +1,1 @@
+/usr/bin/c++    -D_LINUX    CMakeFiles/wrapmodes.dir/src/wrapmodes/wrapmodes.cpp.o  -o bin/wrapmodes -rdynamic -L/home/fzhan/Downloads/sb6code-master/lib lib/libsb6.a -Wl,-rpath,/home/fzhan/Downloads/sb6code-master/lib 

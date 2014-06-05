@@ -1,0 +1,1 @@
+/usr/bin/c++    -D_LINUX    CMakeFiles/phonglighting.dir/src/phonglighting/phonglighting.cpp.o  -o bin/phonglighting -rdynamic -L/home/fzhan/Downloads/sb6code-master/lib lib/libsb6.a -Wl,-rpath,/home/fzhan/Downloads/sb6code-master/lib 

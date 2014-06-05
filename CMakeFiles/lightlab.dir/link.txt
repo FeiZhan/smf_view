@@ -1,0 +1,1 @@
+/usr/bin/gcc      CMakeFiles/lightlab.dir/lightlab.c.o  -o lightlab -rdynamic -lGLU -lGL -lSM -lICE -lX11 -lXext -lglut -lXmu -lXi 

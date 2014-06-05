@@ -1,0 +1,1 @@
+/usr/bin/c++    -D_LINUX    CMakeFiles/msaanative.dir/src/msaanative/msaanative.cpp.o  -o bin/msaanative -rdynamic -L/home/fzhan/Downloads/sb6code-master/lib lib/libsb6.a -Wl,-rpath,/home/fzhan/Downloads/sb6code-master/lib 

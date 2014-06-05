@@ -1,0 +1,1 @@
+/usr/bin/c++    -D_LINUX    CMakeFiles/raytracer.dir/src/raytracer/raytracer.cpp.o  -o bin/raytracer -rdynamic -L/home/fzhan/Downloads/sb6code-master/lib lib/libsb6.a -Wl,-rpath,/home/fzhan/Downloads/sb6code-master/lib 

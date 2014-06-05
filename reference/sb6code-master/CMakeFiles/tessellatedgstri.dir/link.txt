@@ -1,0 +1,1 @@
+/usr/bin/c++    -D_LINUX    CMakeFiles/tessellatedgstri.dir/src/tessellatedgstri/tessellatedgstri.cpp.o  -o bin/tessellatedgstri -rdynamic -L/home/fzhan/Downloads/sb6code-master/lib lib/libsb6.a -Wl,-rpath,/home/fzhan/Downloads/sb6code-master/lib 

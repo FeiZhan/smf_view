@@ -1,0 +1,30 @@
+#IncludeRegexLine: ^[ 	]*#[ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/fzhan/work/meshgui/SmfModel.cpp
+fstream
+-
+sstream
+-
+iomanip
+-
+SmfModel.h
+/home/fzhan/work/meshgui/SmfModel.h
+
+/home/fzhan/work/meshgui/SmfModel.h
+iostream
+-
+string
+-
+vector
+-
+GL/glut.h
+-
+GL/glui.h
+-
+

@@ -1,0 +1,1 @@
+/usr/bin/c++    -D_LINUX    CMakeFiles/gstessellate.dir/src/gstessellate/gstessellate.cpp.o  -o bin/gstessellate -rdynamic -L/home/fzhan/Downloads/sb6code-master/lib lib/libsb6.a -Wl,-rpath,/home/fzhan/Downloads/sb6code-master/lib 

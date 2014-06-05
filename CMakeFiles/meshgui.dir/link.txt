@@ -1,0 +1,1 @@
+/usr/bin/c++       CMakeFiles/meshgui.dir/main.cpp.o CMakeFiles/meshgui.dir/MeshGui.cpp.o CMakeFiles/meshgui.dir/SmfModel.cpp.o  -o meshgui -rdynamic -lGLU -lGL -lSM -lICE -lX11 -lXext -lglut -lXmu -lXi -lglui 

@@ -1,0 +1,1 @@
+/usr/bin/c++    -D_LINUX    CMakeFiles/subroutines.dir/src/subroutines/subroutines.cpp.o  -o bin/subroutines -rdynamic -L/home/fzhan/Downloads/sb6code-master/lib lib/libsb6.a -Wl,-rpath,/home/fzhan/Downloads/sb6code-master/lib 

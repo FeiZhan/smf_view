@@ -1,0 +1,1 @@
+/usr/bin/c++    -D_LINUX    CMakeFiles/singlepoint.dir/src/singlepoint/singlepoint.cpp.o  -o bin/singlepoint -rdynamic -L/home/fzhan/Downloads/sb6code-master/lib lib/libsb6.a -Wl,-rpath,/home/fzhan/Downloads/sb6code-master/lib 

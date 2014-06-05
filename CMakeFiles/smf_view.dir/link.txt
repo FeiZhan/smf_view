@@ -1,0 +1,1 @@
+/usr/bin/c++       CMakeFiles/smf_view.dir/main.cpp.o CMakeFiles/smf_view.dir/MeshGui.cpp.o CMakeFiles/smf_view.dir/SmfModel.cpp.o  -o smf_view -rdynamic -lGLU -lGL -lSM -lICE -lX11 -lXext -lglut -lXmu -lXi -lglui 

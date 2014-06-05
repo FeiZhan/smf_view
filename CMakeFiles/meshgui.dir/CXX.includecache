@@ -1,0 +1,36 @@
+#IncludeRegexLine: ^[ 	]*#[ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/fzhan/work/meshgui/MeshGui.cpp
+MeshGui.h
+/home/fzhan/work/meshgui/MeshGui.h
+SmfModel.h
+/home/fzhan/work/meshgui/SmfModel.h
+
+/home/fzhan/work/meshgui/MeshGui.h
+iostream
+-
+string
+-
+GL/glut.h
+-
+GL/glui.h
+-
+
+/home/fzhan/work/meshgui/SmfModel.h
+iostream
+-
+string
+-
+vector
+-
+GL/glut.h
+-
+GL/glui.h
+-
+

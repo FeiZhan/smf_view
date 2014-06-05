@@ -1,0 +1,1 @@
+/usr/bin/c++       CMakeFiles/example5.dir/example5.cpp.o  -o example5 -rdynamic -lGLU -lGL -lSM -lICE -lX11 -lXext -lglut -lXmu -lXi -lglui 

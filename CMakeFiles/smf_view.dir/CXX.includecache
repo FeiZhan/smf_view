@@ -6,13 +6,7 @@
 
 #IncludeRegexTransform: 
 
-/home/fzhan/work/meshgui/MeshGui.cpp
-MeshGui.h
-/home/fzhan/work/meshgui/MeshGui.h
-SmfModel.h
-/home/fzhan/work/meshgui/SmfModel.h
-
-/home/fzhan/work/meshgui/MeshGui.h
+/home/fzhan/work/smf_view/MeshGui.cpp
 iostream
 -
 string
@@ -21,36 +15,22 @@ GL/glut.h
 -
 GL/glui.h
 -
+MeshGui.h
+/home/fzhan/work/smf_view/MeshGui.h
 
-/home/fzhan/work/meshgui/SmfModel.cpp
-fstream
+/home/fzhan/work/smf_view/MeshGui.h
+iostream
 -
-sstream
--
-iomanip
+string
 -
 SmfModel.h
-/home/fzhan/work/meshgui/SmfModel.h
+/home/fzhan/work/smf_view/SmfModel.h
 
-/home/fzhan/work/meshgui/SmfModel.h
+/home/fzhan/work/smf_view/SmfModel.h
 iostream
 -
 string
 -
 vector
 -
-GL/glut.h
--
-GL/glui.h
--
-
-/home/fzhan/work/meshgui/main.cpp
-iostream
--
-GL/glut.h
--
-MeshGui.h
-/home/fzhan/work/meshgui/MeshGui.h
-SmfModel.h
-/home/fzhan/work/meshgui/SmfModel.h
 

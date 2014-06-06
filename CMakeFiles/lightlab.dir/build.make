@@ -32,10 +32,10 @@ CMAKE_COMMAND = /usr/bin/cmake
 RM = /usr/bin/cmake -E remove -f
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/fzhan/work/meshgui
+CMAKE_SOURCE_DIR = /home/fzhan/work/smf_view
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/fzhan/work/meshgui
+CMAKE_BINARY_DIR = /home/fzhan/work/smf_view
 
 # Include any dependencies generated for this target.
 include CMakeFiles/lightlab.dir/depend.make
@@ -48,17 +48,17 @@ include CMakeFiles/lightlab.dir/flags.make
 
 CMakeFiles/lightlab.dir/lightlab.c.o: CMakeFiles/lightlab.dir/flags.make
 CMakeFiles/lightlab.dir/lightlab.c.o: lightlab.c
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/fzhan/work/meshgui/CMakeFiles $(CMAKE_PROGRESS_1)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/fzhan/work/smf_view/CMakeFiles $(CMAKE_PROGRESS_1)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building C object CMakeFiles/lightlab.dir/lightlab.c.o"
-	/usr/bin/gcc  $(C_DEFINES) $(C_FLAGS) -o CMakeFiles/lightlab.dir/lightlab.c.o   -c /home/fzhan/work/meshgui/lightlab.c
+	/usr/bin/gcc  $(C_DEFINES) $(C_FLAGS) -o CMakeFiles/lightlab.dir/lightlab.c.o   -c /home/fzhan/work/smf_view/lightlab.c
 
 CMakeFiles/lightlab.dir/lightlab.c.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/lightlab.dir/lightlab.c.i"
-	/usr/bin/gcc  $(C_DEFINES) $(C_FLAGS) -E /home/fzhan/work/meshgui/lightlab.c > CMakeFiles/lightlab.dir/lightlab.c.i
+	/usr/bin/gcc  $(C_DEFINES) $(C_FLAGS) -E /home/fzhan/work/smf_view/lightlab.c > CMakeFiles/lightlab.dir/lightlab.c.i
 
 CMakeFiles/lightlab.dir/lightlab.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/lightlab.dir/lightlab.c.s"
-	/usr/bin/gcc  $(C_DEFINES) $(C_FLAGS) -S /home/fzhan/work/meshgui/lightlab.c -o CMakeFiles/lightlab.dir/lightlab.c.s
+	/usr/bin/gcc  $(C_DEFINES) $(C_FLAGS) -S /home/fzhan/work/smf_view/lightlab.c -o CMakeFiles/lightlab.dir/lightlab.c.s
 
 CMakeFiles/lightlab.dir/lightlab.c.o.requires:
 .PHONY : CMakeFiles/lightlab.dir/lightlab.c.o.requires
@@ -103,6 +103,6 @@ CMakeFiles/lightlab.dir/clean:
 .PHONY : CMakeFiles/lightlab.dir/clean
 
 CMakeFiles/lightlab.dir/depend:
-	cd /home/fzhan/work/meshgui && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/fzhan/work/meshgui /home/fzhan/work/meshgui /home/fzhan/work/meshgui /home/fzhan/work/meshgui /home/fzhan/work/meshgui/CMakeFiles/lightlab.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home/fzhan/work/smf_view && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/fzhan/work/smf_view /home/fzhan/work/smf_view /home/fzhan/work/smf_view /home/fzhan/work/smf_view /home/fzhan/work/smf_view/CMakeFiles/lightlab.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/lightlab.dir/depend
 

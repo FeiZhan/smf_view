@@ -32,10 +32,10 @@ CMAKE_COMMAND = /usr/bin/cmake
 RM = /usr/bin/cmake -E remove -f
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/fzhan/work/meshgui
+CMAKE_SOURCE_DIR = /home/fzhan/work/smf_view
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/fzhan/work/meshgui
+CMAKE_BINARY_DIR = /home/fzhan/work/smf_view
 
 # Include any dependencies generated for this target.
 include CMakeFiles/torus.dir/depend.make
@@ -48,17 +48,17 @@ include CMakeFiles/torus.dir/flags.make
 
 CMakeFiles/torus.dir/torus.cpp.o: CMakeFiles/torus.dir/flags.make
 CMakeFiles/torus.dir/torus.cpp.o: torus.cpp
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/fzhan/work/meshgui/CMakeFiles $(CMAKE_PROGRESS_1)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/fzhan/work/smf_view/CMakeFiles $(CMAKE_PROGRESS_1)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/torus.dir/torus.cpp.o"
-	/usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/torus.dir/torus.cpp.o -c /home/fzhan/work/meshgui/torus.cpp
+	/usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/torus.dir/torus.cpp.o -c /home/fzhan/work/smf_view/torus.cpp
 
 CMakeFiles/torus.dir/torus.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/torus.dir/torus.cpp.i"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/fzhan/work/meshgui/torus.cpp > CMakeFiles/torus.dir/torus.cpp.i
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/fzhan/work/smf_view/torus.cpp > CMakeFiles/torus.dir/torus.cpp.i
 
 CMakeFiles/torus.dir/torus.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/torus.dir/torus.cpp.s"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/fzhan/work/meshgui/torus.cpp -o CMakeFiles/torus.dir/torus.cpp.s
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/fzhan/work/smf_view/torus.cpp -o CMakeFiles/torus.dir/torus.cpp.s
 
 CMakeFiles/torus.dir/torus.cpp.o.requires:
 .PHONY : CMakeFiles/torus.dir/torus.cpp.o.requires
@@ -103,6 +103,6 @@ CMakeFiles/torus.dir/clean:
 .PHONY : CMakeFiles/torus.dir/clean
 
 CMakeFiles/torus.dir/depend:
-	cd /home/fzhan/work/meshgui && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/fzhan/work/meshgui /home/fzhan/work/meshgui /home/fzhan/work/meshgui /home/fzhan/work/meshgui /home/fzhan/work/meshgui/CMakeFiles/torus.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home/fzhan/work/smf_view && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/fzhan/work/smf_view /home/fzhan/work/smf_view /home/fzhan/work/smf_view /home/fzhan/work/smf_view /home/fzhan/work/smf_view/CMakeFiles/torus.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/torus.dir/depend
 

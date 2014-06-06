@@ -1,4 +1,1 @@
-/home/fzhan/work/meshgui/CMakeFiles/lightlab.dir
-/home/fzhan/work/meshgui/CMakeFiles/mesh_gui.dir
-/home/fzhan/work/meshgui/CMakeFiles/smf_view.dir
-/home/fzhan/work/meshgui/CMakeFiles/torus.dir
+/home/fzhan/work/smf_view/CMakeFiles/smf_view.dir

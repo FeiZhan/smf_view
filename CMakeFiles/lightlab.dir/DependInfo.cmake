@@ -4,7 +4,7 @@ SET(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 SET(CMAKE_DEPENDS_CHECK_C
-  "/home/fzhan/work/meshgui/lightlab.c" "/home/fzhan/work/meshgui/CMakeFiles/lightlab.dir/lightlab.c.o"
+  "/home/fzhan/work/smf_view/lightlab.c" "/home/fzhan/work/smf_view/CMakeFiles/lightlab.dir/lightlab.c.o"
   )
 SET(CMAKE_C_COMPILER_ID "GNU")
 

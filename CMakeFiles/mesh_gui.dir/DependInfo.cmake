@@ -4,8 +4,8 @@ SET(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 SET(CMAKE_DEPENDS_CHECK_CXX
-  "/home/fzhan/work/meshgui/SmfModel.cpp" "/home/fzhan/work/meshgui/CMakeFiles/mesh_gui.dir/SmfModel.cpp.o"
-  "/home/fzhan/work/meshgui/mesh_gui.cpp" "/home/fzhan/work/meshgui/CMakeFiles/mesh_gui.dir/mesh_gui.cpp.o"
+  "/home/fzhan/work/smf_view/SmfModel.cpp" "/home/fzhan/work/smf_view/CMakeFiles/mesh_gui.dir/SmfModel.cpp.o"
+  "/home/fzhan/work/smf_view/mesh_gui.cpp" "/home/fzhan/work/smf_view/CMakeFiles/mesh_gui.dir/mesh_gui.cpp.o"
   )
 SET(CMAKE_CXX_COMPILER_ID "GNU")
 

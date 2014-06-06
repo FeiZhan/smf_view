@@ -44,80 +44,10 @@ CMAKE_COMMAND = /usr/bin/cmake
 RM = /usr/bin/cmake -E remove -f
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/fzhan/work/meshgui
+CMAKE_SOURCE_DIR = /home/fzhan/work/smf_view
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/fzhan/work/meshgui
-
-#=============================================================================
-# Target rules for target CMakeFiles/lightlab.dir
-
-# All Build rule for target.
-CMakeFiles/lightlab.dir/all:
-	$(MAKE) -f CMakeFiles/lightlab.dir/build.make CMakeFiles/lightlab.dir/depend
-	$(MAKE) -f CMakeFiles/lightlab.dir/build.make CMakeFiles/lightlab.dir/build
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/fzhan/work/meshgui/CMakeFiles  1
-	@echo "Built target lightlab"
-.PHONY : CMakeFiles/lightlab.dir/all
-
-# Include target in all.
-all: CMakeFiles/lightlab.dir/all
-.PHONY : all
-
-# Build rule for subdir invocation for target.
-CMakeFiles/lightlab.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/fzhan/work/meshgui/CMakeFiles 1
-	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/lightlab.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/fzhan/work/meshgui/CMakeFiles 0
-.PHONY : CMakeFiles/lightlab.dir/rule
-
-# Convenience name for target.
-lightlab: CMakeFiles/lightlab.dir/rule
-.PHONY : lightlab
-
-# clean rule for target.
-CMakeFiles/lightlab.dir/clean:
-	$(MAKE) -f CMakeFiles/lightlab.dir/build.make CMakeFiles/lightlab.dir/clean
-.PHONY : CMakeFiles/lightlab.dir/clean
-
-# clean rule for target.
-clean: CMakeFiles/lightlab.dir/clean
-.PHONY : clean
-
-#=============================================================================
-# Target rules for target CMakeFiles/mesh_gui.dir
-
-# All Build rule for target.
-CMakeFiles/mesh_gui.dir/all:
-	$(MAKE) -f CMakeFiles/mesh_gui.dir/build.make CMakeFiles/mesh_gui.dir/depend
-	$(MAKE) -f CMakeFiles/mesh_gui.dir/build.make CMakeFiles/mesh_gui.dir/build
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/fzhan/work/meshgui/CMakeFiles  2 3
-	@echo "Built target mesh_gui"
-.PHONY : CMakeFiles/mesh_gui.dir/all
-
-# Include target in all.
-all: CMakeFiles/mesh_gui.dir/all
-.PHONY : all
-
-# Build rule for subdir invocation for target.
-CMakeFiles/mesh_gui.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/fzhan/work/meshgui/CMakeFiles 2
-	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/mesh_gui.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/fzhan/work/meshgui/CMakeFiles 0
-.PHONY : CMakeFiles/mesh_gui.dir/rule
-
-# Convenience name for target.
-mesh_gui: CMakeFiles/mesh_gui.dir/rule
-.PHONY : mesh_gui
-
-# clean rule for target.
-CMakeFiles/mesh_gui.dir/clean:
-	$(MAKE) -f CMakeFiles/mesh_gui.dir/build.make CMakeFiles/mesh_gui.dir/clean
-.PHONY : CMakeFiles/mesh_gui.dir/clean
-
-# clean rule for target.
-clean: CMakeFiles/mesh_gui.dir/clean
-.PHONY : clean
+CMAKE_BINARY_DIR = /home/fzhan/work/smf_view
 
 #=============================================================================
 # Target rules for target CMakeFiles/smf_view.dir
@@ -126,7 +56,7 @@ clean: CMakeFiles/mesh_gui.dir/clean
 CMakeFiles/smf_view.dir/all:
 	$(MAKE) -f CMakeFiles/smf_view.dir/build.make CMakeFiles/smf_view.dir/depend
 	$(MAKE) -f CMakeFiles/smf_view.dir/build.make CMakeFiles/smf_view.dir/build
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/fzhan/work/meshgui/CMakeFiles  4 5 6
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/fzhan/work/smf_view/CMakeFiles  1 2 3
 	@echo "Built target smf_view"
 .PHONY : CMakeFiles/smf_view.dir/all
 
@@ -136,9 +66,9 @@ all: CMakeFiles/smf_view.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/smf_view.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/fzhan/work/meshgui/CMakeFiles 3
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/fzhan/work/smf_view/CMakeFiles 3
 	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/smf_view.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/fzhan/work/meshgui/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/fzhan/work/smf_view/CMakeFiles 0
 .PHONY : CMakeFiles/smf_view.dir/rule
 
 # Convenience name for target.
@@ -152,41 +82,6 @@ CMakeFiles/smf_view.dir/clean:
 
 # clean rule for target.
 clean: CMakeFiles/smf_view.dir/clean
-.PHONY : clean
-
-#=============================================================================
-# Target rules for target CMakeFiles/torus.dir
-
-# All Build rule for target.
-CMakeFiles/torus.dir/all:
-	$(MAKE) -f CMakeFiles/torus.dir/build.make CMakeFiles/torus.dir/depend
-	$(MAKE) -f CMakeFiles/torus.dir/build.make CMakeFiles/torus.dir/build
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/fzhan/work/meshgui/CMakeFiles  7
-	@echo "Built target torus"
-.PHONY : CMakeFiles/torus.dir/all
-
-# Include target in all.
-all: CMakeFiles/torus.dir/all
-.PHONY : all
-
-# Build rule for subdir invocation for target.
-CMakeFiles/torus.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/fzhan/work/meshgui/CMakeFiles 1
-	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/torus.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/fzhan/work/meshgui/CMakeFiles 0
-.PHONY : CMakeFiles/torus.dir/rule
-
-# Convenience name for target.
-torus: CMakeFiles/torus.dir/rule
-.PHONY : torus
-
-# clean rule for target.
-CMakeFiles/torus.dir/clean:
-	$(MAKE) -f CMakeFiles/torus.dir/build.make CMakeFiles/torus.dir/clean
-.PHONY : CMakeFiles/torus.dir/clean
-
-# clean rule for target.
-clean: CMakeFiles/torus.dir/clean
 .PHONY : clean
 
 #=============================================================================

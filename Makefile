@@ -36,10 +36,10 @@ CMAKE_COMMAND = /usr/bin/cmake
 RM = /usr/bin/cmake -E remove -f
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/fzhan/work/meshgui
+CMAKE_SOURCE_DIR = /home/fzhan/work/smf_view
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/fzhan/work/meshgui
+CMAKE_BINARY_DIR = /home/fzhan/work/smf_view
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -66,9 +66,9 @@ rebuild_cache/fast: rebuild_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/fzhan/work/meshgui/CMakeFiles /home/fzhan/work/meshgui/CMakeFiles/progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/fzhan/work/smf_view/CMakeFiles /home/fzhan/work/smf_view/CMakeFiles/progress.marks
 	$(MAKE) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/fzhan/work/meshgui/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/fzhan/work/smf_view/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
@@ -96,32 +96,6 @@ depend:
 .PHONY : depend
 
 #=============================================================================
-# Target rules for targets named lightlab
-
-# Build rule for target.
-lightlab: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 lightlab
-.PHONY : lightlab
-
-# fast build rule for target.
-lightlab/fast:
-	$(MAKE) -f CMakeFiles/lightlab.dir/build.make CMakeFiles/lightlab.dir/build
-.PHONY : lightlab/fast
-
-#=============================================================================
-# Target rules for targets named mesh_gui
-
-# Build rule for target.
-mesh_gui: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 mesh_gui
-.PHONY : mesh_gui
-
-# fast build rule for target.
-mesh_gui/fast:
-	$(MAKE) -f CMakeFiles/mesh_gui.dir/build.make CMakeFiles/mesh_gui.dir/build
-.PHONY : mesh_gui/fast
-
-#=============================================================================
 # Target rules for targets named smf_view
 
 # Build rule for target.
@@ -133,19 +107,6 @@ smf_view: cmake_check_build_system
 smf_view/fast:
 	$(MAKE) -f CMakeFiles/smf_view.dir/build.make CMakeFiles/smf_view.dir/build
 .PHONY : smf_view/fast
-
-#=============================================================================
-# Target rules for targets named torus
-
-# Build rule for target.
-torus: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 torus
-.PHONY : torus
-
-# fast build rule for target.
-torus/fast:
-	$(MAKE) -f CMakeFiles/torus.dir/build.make CMakeFiles/torus.dir/build
-.PHONY : torus/fast
 
 MeshGui.o: MeshGui.cpp.o
 .PHONY : MeshGui.o
@@ -176,7 +137,6 @@ SmfModel.o: SmfModel.cpp.o
 
 # target to build an object file
 SmfModel.cpp.o:
-	$(MAKE) -f CMakeFiles/mesh_gui.dir/build.make CMakeFiles/mesh_gui.dir/SmfModel.cpp.o
 	$(MAKE) -f CMakeFiles/smf_view.dir/build.make CMakeFiles/smf_view.dir/SmfModel.cpp.o
 .PHONY : SmfModel.cpp.o
 
@@ -185,7 +145,6 @@ SmfModel.i: SmfModel.cpp.i
 
 # target to preprocess a source file
 SmfModel.cpp.i:
-	$(MAKE) -f CMakeFiles/mesh_gui.dir/build.make CMakeFiles/mesh_gui.dir/SmfModel.cpp.i
 	$(MAKE) -f CMakeFiles/smf_view.dir/build.make CMakeFiles/smf_view.dir/SmfModel.cpp.i
 .PHONY : SmfModel.cpp.i
 
@@ -194,33 +153,8 @@ SmfModel.s: SmfModel.cpp.s
 
 # target to generate assembly for a file
 SmfModel.cpp.s:
-	$(MAKE) -f CMakeFiles/mesh_gui.dir/build.make CMakeFiles/mesh_gui.dir/SmfModel.cpp.s
 	$(MAKE) -f CMakeFiles/smf_view.dir/build.make CMakeFiles/smf_view.dir/SmfModel.cpp.s
 .PHONY : SmfModel.cpp.s
-
-lightlab.o: lightlab.c.o
-.PHONY : lightlab.o
-
-# target to build an object file
-lightlab.c.o:
-	$(MAKE) -f CMakeFiles/lightlab.dir/build.make CMakeFiles/lightlab.dir/lightlab.c.o
-.PHONY : lightlab.c.o
-
-lightlab.i: lightlab.c.i
-.PHONY : lightlab.i
-
-# target to preprocess a source file
-lightlab.c.i:
-	$(MAKE) -f CMakeFiles/lightlab.dir/build.make CMakeFiles/lightlab.dir/lightlab.c.i
-.PHONY : lightlab.c.i
-
-lightlab.s: lightlab.c.s
-.PHONY : lightlab.s
-
-# target to generate assembly for a file
-lightlab.c.s:
-	$(MAKE) -f CMakeFiles/lightlab.dir/build.make CMakeFiles/lightlab.dir/lightlab.c.s
-.PHONY : lightlab.c.s
 
 main.o: main.cpp.o
 .PHONY : main.o
@@ -246,54 +180,6 @@ main.cpp.s:
 	$(MAKE) -f CMakeFiles/smf_view.dir/build.make CMakeFiles/smf_view.dir/main.cpp.s
 .PHONY : main.cpp.s
 
-mesh_gui.o: mesh_gui.cpp.o
-.PHONY : mesh_gui.o
-
-# target to build an object file
-mesh_gui.cpp.o:
-	$(MAKE) -f CMakeFiles/mesh_gui.dir/build.make CMakeFiles/mesh_gui.dir/mesh_gui.cpp.o
-.PHONY : mesh_gui.cpp.o
-
-mesh_gui.i: mesh_gui.cpp.i
-.PHONY : mesh_gui.i
-
-# target to preprocess a source file
-mesh_gui.cpp.i:
-	$(MAKE) -f CMakeFiles/mesh_gui.dir/build.make CMakeFiles/mesh_gui.dir/mesh_gui.cpp.i
-.PHONY : mesh_gui.cpp.i
-
-mesh_gui.s: mesh_gui.cpp.s
-.PHONY : mesh_gui.s
-
-# target to generate assembly for a file
-mesh_gui.cpp.s:
-	$(MAKE) -f CMakeFiles/mesh_gui.dir/build.make CMakeFiles/mesh_gui.dir/mesh_gui.cpp.s
-.PHONY : mesh_gui.cpp.s
-
-torus.o: torus.cpp.o
-.PHONY : torus.o
-
-# target to build an object file
-torus.cpp.o:
-	$(MAKE) -f CMakeFiles/torus.dir/build.make CMakeFiles/torus.dir/torus.cpp.o
-.PHONY : torus.cpp.o
-
-torus.i: torus.cpp.i
-.PHONY : torus.i
-
-# target to preprocess a source file
-torus.cpp.i:
-	$(MAKE) -f CMakeFiles/torus.dir/build.make CMakeFiles/torus.dir/torus.cpp.i
-.PHONY : torus.cpp.i
-
-torus.s: torus.cpp.s
-.PHONY : torus.s
-
-# target to generate assembly for a file
-torus.cpp.s:
-	$(MAKE) -f CMakeFiles/torus.dir/build.make CMakeFiles/torus.dir/torus.cpp.s
-.PHONY : torus.cpp.s
-
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -301,29 +187,17 @@ help:
 	@echo "... clean"
 	@echo "... depend"
 	@echo "... edit_cache"
-	@echo "... lightlab"
-	@echo "... mesh_gui"
 	@echo "... rebuild_cache"
 	@echo "... smf_view"
-	@echo "... torus"
 	@echo "... MeshGui.o"
 	@echo "... MeshGui.i"
 	@echo "... MeshGui.s"
 	@echo "... SmfModel.o"
 	@echo "... SmfModel.i"
 	@echo "... SmfModel.s"
-	@echo "... lightlab.o"
-	@echo "... lightlab.i"
-	@echo "... lightlab.s"
 	@echo "... main.o"
 	@echo "... main.i"
 	@echo "... main.s"
-	@echo "... mesh_gui.o"
-	@echo "... mesh_gui.i"
-	@echo "... mesh_gui.s"
-	@echo "... torus.o"
-	@echo "... torus.i"
-	@echo "... torus.s"
 .PHONY : help
 
 

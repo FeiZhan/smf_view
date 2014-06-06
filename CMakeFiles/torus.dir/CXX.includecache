@@ -6,7 +6,7 @@
 
 #IncludeRegexTransform: 
 
-/home/fzhan/work/meshgui/torus.cpp
+/home/fzhan/work/smf_view/torus.cpp
 GL/glut.h
 -
 

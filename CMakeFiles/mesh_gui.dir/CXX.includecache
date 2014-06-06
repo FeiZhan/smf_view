@@ -6,7 +6,7 @@
 
 #IncludeRegexTransform: 
 
-/home/fzhan/work/meshgui/SmfModel.cpp
+/home/fzhan/work/smf_view/SmfModel.cpp
 fstream
 -
 sstream
@@ -14,9 +14,9 @@ sstream
 iomanip
 -
 SmfModel.h
-/home/fzhan/work/meshgui/SmfModel.h
+/home/fzhan/work/smf_view/SmfModel.h
 
-/home/fzhan/work/meshgui/SmfModel.h
+/home/fzhan/work/smf_view/SmfModel.h
 iostream
 -
 string
@@ -28,11 +28,11 @@ GL/glut.h
 GL/glui.h
 -
 
-/home/fzhan/work/meshgui/mesh_gui.cpp
+/home/fzhan/work/smf_view/mesh_gui.cpp
 iostream
 -
 GL/glut.h
 -
 SmfModel.h
-/home/fzhan/work/meshgui/SmfModel.h
+/home/fzhan/work/smf_view/SmfModel.h
 

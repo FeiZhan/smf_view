@@ -1,10 +1,13 @@
 #include <fstream>
 #include <sstream>
 #include <iomanip>
+#include <GL/glut.h>
+#include <GL/glui.h>
 #include "SmfModel.h"
 
-std::ostream& operator<<(std::ostream& os, const SmfModel& model)
+std::ostream& operator<< (std::ostream& os, const SmfModel& model)
 {
+	// output vertices
 	for (std::vector<std::vector<GLfloat> >::const_iterator it = model.vertex_list.begin(); it != model.vertex_list.end(); ++ it)
 	{
 		os << "v ";
@@ -14,6 +17,7 @@ std::ostream& operator<<(std::ostream& os, const SmfModel& model)
 		}
 		os << std::endl;
 	}
+	// output faces
 	for (std::vector<std::vector<size_t> >::const_iterator it = model.face_list.begin(); it != model.face_list.end(); ++ it)
 	{
 		os << "f ";
@@ -37,7 +41,13 @@ bool SmfModel::loadFile(const std::string &file)
 		vertex_list.clear();
 		face_list.clear();
 	}
+	else
+	{
+		// fail to load
+		return false;
+	}
 	std::string line;
+	// load line by line
 	while (std::getline(infile, line))
 	{
 		if (line.size() < 1)
@@ -49,11 +59,11 @@ bool SmfModel::loadFile(const std::string &file)
 		std::vector<size_t> face(3, 0);
 		switch (line[0])
 		{
-		case 'v':
+		case 'v': // load vertices
 			iss >> vertex[0] >> vertex[1] >> vertex[2];
 			vertex_list.push_back(vertex);
 			break;
-		case 'f':
+		case 'f': // load faces
 			iss >> face[0] >> face[1] >> face[2];
 			face_list.push_back(face);
 			break;
@@ -68,7 +78,9 @@ bool SmfModel::loadFile(const std::string &file)
 bool SmfModel::save(const std::string &filename)
 {
 	std::fstream file;
-	file.open(filename.c_str(), std::ios_base::out | std::ios_base::in);  // will not create file
+	// will not create file
+	file.open(filename.c_str(), std::ios_base::out | std::ios_base::in);
+	// test if file exists
 	if (file.is_open())
 	{
 		std::cerr << "file exists" << std::endl;
@@ -77,7 +89,9 @@ bool SmfModel::save(const std::string &filename)
 	else
 	{
 		file.clear();
-		file.open(filename.c_str(), std::ios_base::out);  // will create if necessary
+		// will create if necessary
+		file.open(filename.c_str(), std::ios_base::out);
+		// save vertices
 		for (std::vector<std::vector<GLfloat> >::iterator it = vertex_list.begin(); it != vertex_list.end(); ++ it)
 		{
 			file << "v";
@@ -87,6 +101,7 @@ bool SmfModel::save(const std::string &filename)
 			}
 			file << std::endl;
 		}
+		// save faces
 		for (std::vector<std::vector<size_t> >::iterator it = face_list.begin(); it != face_list.end(); ++ it)
 		{
 			file << "f";
@@ -101,7 +116,7 @@ bool SmfModel::save(const std::string &filename)
 }
 bool SmfModel::display(void)
 {
-	if (0 == face_list.size())
+	/*if (0 == face_list.size())
 	{
 		return false;
 	}
@@ -119,5 +134,17 @@ bool SmfModel::display(void)
 	glEnableClientState(GL_VERTEX_ARRAY);
 	glVertexPointer(3, GL_FLOAT, 0, vertex_array);
 	glDrawArrays(GL_TRIANGLES, 0, vertex_num);
-	glDisableClientState(GL_VERTEX_ARRAY);
+	glDisableClientState(GL_VERTEX_ARRAY);*/
+
+	glBegin(GL_TRIANGLES);
+	for (size_t i = 0; i < face_list.size(); ++ i)
+	{
+		for (size_t j = 0; j < face_list[i].size(); ++ j)
+		{
+			// draw triangles based on faces and vertices
+			glVertex3f(vertex_list[ face_list[i][j] - 1 ][0], vertex_list[ face_list[i][j] - 1 ][1], vertex_list[ face_list[i][j] - 1 ][2]);
+		}
+	}
+	glEnd();
+	return true;
 }

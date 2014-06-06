@@ -6,7 +6,7 @@
 
 #IncludeRegexTransform: 
 
-/home/fzhan/work/meshgui/lightlab.c
+/home/fzhan/work/smf_view/lightlab.c
 stdlib.h
 -
 stdarg.h

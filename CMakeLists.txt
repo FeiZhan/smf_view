@@ -25,7 +25,7 @@ set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/Modules/")
 #target_link_libraries(mesh_gui ${OPENGL_LIBRARIES} ${GLUT_LIBRARY} ${GLUI_LIBRARY} )
 
 project(smf_view)
-add_executable(smf_view main.cpp MeshGui.h MeshGui.cpp SmfModel.h SmfModel.cpp)
+add_executable(smf_view main.cpp MeshGui.h MeshGui.cpp SmfModel.h SmfModel.cpp Subdivision.h Subdivision.cpp)
 find_package(OpenGL REQUIRED)
 find_package(GLUT REQUIRED)
 find_package(GLUI REQUIRED)

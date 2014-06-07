@@ -1,7 +1,6 @@
 #include <fstream>
 #include <sstream>
 #include <iomanip>
-#include <GL/glut.h>
 #include <GL/glui.h>
 #include "SmfModel.h"
 
@@ -31,6 +30,10 @@ std::ostream& operator<< (std::ostream& os, const SmfModel& model)
 }
 SmfModel::SmfModel(const std::string &file)
 {
+	if (file.length() == 0)
+	{
+		return;
+	}
 	this->loadFile(file);
 }
 bool SmfModel::loadFile(const std::string &file)

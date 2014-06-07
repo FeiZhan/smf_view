@@ -6,26 +6,6 @@
 
 #IncludeRegexTransform: 
 
-/home/fzhan/work/smf_view/MeshGui.cpp
-iostream
--
-string
--
-GL/glut.h
--
-GL/glui.h
--
-MeshGui.h
-/home/fzhan/work/smf_view/MeshGui.h
-
-/home/fzhan/work/smf_view/MeshGui.h
-iostream
--
-string
--
-SmfModel.h
-/home/fzhan/work/smf_view/SmfModel.h
-
 /home/fzhan/work/smf_view/SmfModel.h
 iostream
 -
@@ -33,4 +13,24 @@ string
 -
 vector
 -
+GL/glut.h
+-
+
+/home/fzhan/work/smf_view/Subdivision.cpp
+Subdivision.h
+/home/fzhan/work/smf_view/Subdivision.h
+
+/home/fzhan/work/smf_view/Subdivision.h
+iostream
+-
+string
+-
+vector
+-
+set
+-
+map
+-
+SmfModel.h
+/home/fzhan/work/smf_view/SmfModel.h
 

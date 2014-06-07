@@ -3,6 +3,7 @@
 #include <iostream>
 #include <string>
 #include "SmfModel.h"
+#include "Subdivision.h"
 
 class MeshGui
 {
@@ -30,6 +31,7 @@ private:
 	static void control_cb( int control );
 	
 	static SmfModel smf_model;
+	static Subdivision subd;
 
 	// shared variables
 	static float xy_aspect;

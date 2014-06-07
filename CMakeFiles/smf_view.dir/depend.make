@@ -4,11 +4,17 @@
 CMakeFiles/smf_view.dir/MeshGui.cpp.o: MeshGui.cpp
 CMakeFiles/smf_view.dir/MeshGui.cpp.o: MeshGui.h
 CMakeFiles/smf_view.dir/MeshGui.cpp.o: SmfModel.h
+CMakeFiles/smf_view.dir/MeshGui.cpp.o: Subdivision.h
 
 CMakeFiles/smf_view.dir/SmfModel.cpp.o: SmfModel.cpp
 CMakeFiles/smf_view.dir/SmfModel.cpp.o: SmfModel.h
 
+CMakeFiles/smf_view.dir/Subdivision.cpp.o: SmfModel.h
+CMakeFiles/smf_view.dir/Subdivision.cpp.o: Subdivision.cpp
+CMakeFiles/smf_view.dir/Subdivision.cpp.o: Subdivision.h
+
 CMakeFiles/smf_view.dir/main.cpp.o: MeshGui.h
 CMakeFiles/smf_view.dir/main.cpp.o: SmfModel.h
+CMakeFiles/smf_view.dir/main.cpp.o: Subdivision.h
 CMakeFiles/smf_view.dir/main.cpp.o: main.cpp
 

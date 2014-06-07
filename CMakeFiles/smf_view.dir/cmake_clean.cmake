@@ -2,6 +2,7 @@ FILE(REMOVE_RECURSE
   "CMakeFiles/smf_view.dir/main.cpp.o"
   "CMakeFiles/smf_view.dir/MeshGui.cpp.o"
   "CMakeFiles/smf_view.dir/SmfModel.cpp.o"
+  "CMakeFiles/smf_view.dir/Subdivision.cpp.o"
   "smf_view.pdb"
   "smf_view"
 )

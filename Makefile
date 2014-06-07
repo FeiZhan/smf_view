@@ -156,6 +156,30 @@ SmfModel.cpp.s:
 	$(MAKE) -f CMakeFiles/smf_view.dir/build.make CMakeFiles/smf_view.dir/SmfModel.cpp.s
 .PHONY : SmfModel.cpp.s
 
+Subdivision.o: Subdivision.cpp.o
+.PHONY : Subdivision.o
+
+# target to build an object file
+Subdivision.cpp.o:
+	$(MAKE) -f CMakeFiles/smf_view.dir/build.make CMakeFiles/smf_view.dir/Subdivision.cpp.o
+.PHONY : Subdivision.cpp.o
+
+Subdivision.i: Subdivision.cpp.i
+.PHONY : Subdivision.i
+
+# target to preprocess a source file
+Subdivision.cpp.i:
+	$(MAKE) -f CMakeFiles/smf_view.dir/build.make CMakeFiles/smf_view.dir/Subdivision.cpp.i
+.PHONY : Subdivision.cpp.i
+
+Subdivision.s: Subdivision.cpp.s
+.PHONY : Subdivision.s
+
+# target to generate assembly for a file
+Subdivision.cpp.s:
+	$(MAKE) -f CMakeFiles/smf_view.dir/build.make CMakeFiles/smf_view.dir/Subdivision.cpp.s
+.PHONY : Subdivision.cpp.s
+
 main.o: main.cpp.o
 .PHONY : main.o
 
@@ -195,6 +219,9 @@ help:
 	@echo "... SmfModel.o"
 	@echo "... SmfModel.i"
 	@echo "... SmfModel.s"
+	@echo "... Subdivision.o"
+	@echo "... Subdivision.i"
+	@echo "... Subdivision.s"
 	@echo "... main.o"
 	@echo "... main.i"
 	@echo "... main.s"

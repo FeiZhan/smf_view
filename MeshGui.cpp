@@ -44,11 +44,14 @@ float MeshGui::view_rotate[16] = { 1,0,0,0, 0,1,0,0, 0,0,1,0, 0,0,0,1 };
 float MeshGui::obj_pos[] = { 0.0, 0.0, 0.0 };
 
 SmfModel MeshGui::smf_model(MeshGui::filename);
+Subdivision MeshGui::subd(MeshGui::filename);
 
 MeshGui::MeshGui(void)
 {}
 int MeshGui::run(int argc, char *argv[])
 {
+	subd.subdivide();
+	//std::cout << subd << std::endl;
 	this->initGlut(argc, argv);
 	this->initGlui();
 	this->initGl();
@@ -82,6 +85,7 @@ int MeshGui::initGlui(void)
 	glui->add_radiobutton_to_group( ot_group, "smoothShaded" );
 	glui->add_radiobutton_to_group( ot_group, "wireframe" );
 	glui->add_radiobutton_to_group( ot_group, "shadedEdges" );
+	glui->add_radiobutton_to_group( ot_group, "point" );
 	// load and save smf file
 	new GLUI_EditText (glui, "smf/", GLUI_EDITTEXT_TEXT, filetext, INPUT_FILE, control_cb);
 	new GLUI_Button( glui, "open", OPEN_MESH, control_cb );
@@ -196,7 +200,8 @@ void MeshGui::display(void)
 	glPushMatrix();
 	glTranslatef( -.5, 0.0, 0.0 );
 	glMultMatrixf( sphere_rotate );
-	smf_model.display();
+	subd.display();
+	//smf_model.display();
 	glPopMatrix();
 	if (3 == radiogroup_item_id)
 	{
@@ -333,6 +338,9 @@ void MeshGui::control_cb( int control )
 		case 3: // shadedEdges
 			glShadeModel(GL_FLAT);
 			glPolygonMode( GL_FRONT_AND_BACK, GL_FILL );
+			break;
+		case 4: // point
+			glPolygonMode( GL_FRONT_AND_BACK, GL_POINT );
 			break;
 		default:
 			break;

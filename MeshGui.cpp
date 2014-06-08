@@ -1,9 +1,7 @@
-#include <iostream>
 #include <string>
-#include <GL/glut.h>
-#include <GL/glui.h>
 #include "MeshGui.h"
 
+// IDs for each control
 enum CtrlId
 {
 	LIGHT0_ENABLE,
@@ -20,36 +18,41 @@ enum CtrlId
 	SAVE_MESH
 };
 
-float MeshGui::xy_aspect;
-int MeshGui::segments = 8;
-float MeshGui::scale = 1.0;
+// shared variables between main programs and control callbacks
 int MeshGui::light0_enabled = 1;
 int MeshGui::light1_enabled = 1;
 float MeshGui::light0_intensity = 1.0;
 float MeshGui::light1_intensity = .4;
+float MeshGui::xy_aspect;
+float MeshGui::scale = 1.0;
 // id of the selected radio button
 int MeshGui::radiogroup_item_id = 0;
-char MeshGui::filetext[sizeof(GLUI_String)] = "eight";
-char MeshGui::filename[] = "smf/eight.smf";
-// text
+// the default mesh file
+char MeshGui::filetext[sizeof(GLUI_String)] = "cube0"; // cube0 eight
+char MeshGui::filename[] = "smf/cube0.smf";
+// text for debugging
 int MeshGui::show_text = false;
 const char *MeshGui::string_list[] = { "Hello World!", "Foo", "Testing...", "Bounding box: on" };
 int MeshGui::curr_string = 0;
 GLUI_Spinner *MeshGui::light0_spinner, *MeshGui::light1_spinner;
 
 int MeshGui::main_window;
-float MeshGui::sphere_rotate[16] = { 1,0,0,0, 0,1,0,0, 0,0,1,0, 0,0,0,1 };
-float MeshGui::torus_rotate[16] = { 1,0,0,0, 0,1,0,0, 0,0,1,0, 0,0,0,1 };
+float MeshGui::mesh_rotate[16] = { 1,0,0,0, 0,1,0,0, 0,0,1,0, 0,0,0,1 };
 float MeshGui::view_rotate[16] = { 1,0,0,0, 0,1,0,0, 0,0,1,0, 0,0,0,1 };
 float MeshGui::obj_pos[] = { 0.0, 0.0, 0.0 };
 
+// initialization of SMF model
 SmfModel MeshGui::smf_model(MeshGui::filename);
 Subdivision MeshGui::subd(MeshGui::filename);
 
+// constructor
 MeshGui::MeshGui(void)
 {}
+// main entrance
 int MeshGui::run(int argc, char *argv[])
 {
+	// debug
+	std::cout << smf_model << std::endl;
 	subd.subdivide();
 	//std::cout << subd << std::endl;
 	this->initGlut(argc, argv);
@@ -57,9 +60,10 @@ int MeshGui::run(int argc, char *argv[])
 	this->initGl();
 	return EXIT_SUCCESS;
 }
+// initialize GLUT
 int MeshGui::initGlut(int argc, char *argv[])
 {
-	// init openGL
+	// init glut
 	glutInit(&argc, argv);
 	glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE | GLUT_DEPTH);
 	glutInitWindowPosition(50, 50);
@@ -73,6 +77,7 @@ int MeshGui::initGlut(int argc, char *argv[])
 	GLUI_Master.set_glutMouseFunc(mouse);
 	glutMotionFunc(motion);
 }
+// initialize GLUI
 int MeshGui::initGlui(void)
 {
 	// create the side subwindow
@@ -116,39 +121,39 @@ int MeshGui::initGlui(void)
 	sb->set_float_limits(0,1);
 	sb = new GLUI_Scrollbar( light1, "Blue",GLUI_SCROLL_HORIZONTAL, &light1_diffuse[2],LIGHT1_INTENSITY,control_cb);
 	sb->set_float_limits(0,1);
-
-
 	// Link windows to GLUI, and register idle callback
 	glui->set_main_gfx_window( main_window );
 
 	// Create the bottom subwindow
 	GLUI *glui2 = GLUI_Master.create_glui_subwindow( main_window, GLUI_SUBWINDOW_BOTTOM );
 	glui2->set_main_gfx_window( main_window );
+	// rotate the world
 	GLUI_Rotation *view_rot = new GLUI_Rotation(glui2, "Objects", view_rotate );
 	view_rot->set_spin( 1.0 );
+	// rotate the model
 	new GLUI_Column( glui2, false );
-	GLUI_Rotation *sph_rot = new GLUI_Rotation(glui2, "Model", sphere_rotate );
+	GLUI_Rotation *sph_rot = new GLUI_Rotation(glui2, "Model", mesh_rotate );
 	sph_rot->set_spin( .98 );
+	// rotate the blue light
 	new GLUI_Column( glui2, false );
 	GLUI_Rotation *lights_rot = new GLUI_Rotation(glui2, "Blue Light", lights_rotation );
 	lights_rot->set_spin( .82 );
+	// object XY translate
 	new GLUI_Column( glui2, false );
 	GLUI_Translation *trans_xy = new GLUI_Translation(glui2, "Objects XY", GLUI_TRANSLATION_XY, obj_pos );
 	trans_xy->set_speed( .005 );
+	// object X translate
 	new GLUI_Column( glui2, false );
 	GLUI_Translation *trans_x = new GLUI_Translation(glui2, "Objects X", GLUI_TRANSLATION_X, obj_pos );
 	trans_x->set_speed( .005 );
+	// object Y translate
 	new GLUI_Column( glui2, false );
 	GLUI_Translation *trans_y = new GLUI_Translation( glui2, "Objects Y", GLUI_TRANSLATION_Y, &obj_pos[1] );
 	trans_y->set_speed( .005 );
+	// object y translate
 	new GLUI_Column( glui2, false );
 	GLUI_Translation *trans_z = new GLUI_Translation( glui2, "Objects Z", GLUI_TRANSLATION_Z, &obj_pos[2] );
 	trans_z->set_speed( .005 );
-
-#if 0
-	// We register the idle callback with GLUI, *not* with GLUT
-	GLUI_Master.set_glutIdleFunc( idle );
-#endif
 
 	return EXIT_SUCCESS;
 }
@@ -161,6 +166,7 @@ GLfloat MeshGui::light1_ambient[] =  {0.1f, 0.1f, 0.3f, 1.0f};
 GLfloat MeshGui::light1_diffuse[] =  {.9f, .6f, 0.0f, 1.0f};
 GLfloat MeshGui::light1_position[] = {-1.0f, -1.0f, 1.0f, 0.0f};
 GLfloat MeshGui::lights_rotation[16] = {1,0,0,0, 0,1,0,0, 0,0,1,0, 0,0,0,1 };
+// initialize GL
 int MeshGui::initGl(void)
 {
 	// set up OpenGL lights
@@ -176,6 +182,7 @@ int MeshGui::initGl(void)
 	glLightfv(GL_LIGHT1, GL_POSITION, light1_position);
 	// enable z-bufferring
 	glEnable(GL_DEPTH_TEST);
+	// start the main loop
 	glutMainLoop();
 	return EXIT_SUCCESS;
 }
@@ -199,16 +206,17 @@ void MeshGui::display(void)
 	// draw the smf model
 	glPushMatrix();
 	glTranslatef( -.5, 0.0, 0.0 );
-	glMultMatrixf( sphere_rotate );
+	glMultMatrixf( mesh_rotate );
 	subd.display();
 	//smf_model.display();
 	glPopMatrix();
+	// shade with mesh edges displayed
 	if (3 == radiogroup_item_id)
 	{
 		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 		glPushMatrix();
 		glTranslatef( -.5, 0.0, 0.0 );
-		glMultMatrixf( sphere_rotate );
+		glMultMatrixf( mesh_rotate );
 		smf_model.display();
 		glPopMatrix();
 		glShadeModel(GL_FLAT);
@@ -217,14 +225,14 @@ void MeshGui::display(void)
 
 	/*glPushMatrix();
 	glTranslatef( .5, 0.0, 0.0 );
-	glMultMatrixf( torus_rotate );
-	glutSolidTorus( .15,.3,16,segments );
+	glMultMatrixf( mesh_rotate );
+	glutSolidTorus( .15,.3,16,8 );
 	glPopMatrix();*/
 
 	// show text
 	if (show_text) 
 	{
-		// Disable lighting while we render text
+		// disable lighting while we render text
 		glDisable( GL_LIGHTING );
 		glMatrixMode( GL_PROJECTION );
 		glLoadIdentity();
@@ -233,7 +241,7 @@ void MeshGui::display(void)
 		glLoadIdentity();
 		glColor3ub( 0, 0, 0 );
 		glRasterPos2i( 10, 10 );
-		// Render the live character array 'text'
+		// render the live character array 'text'
 		for(int i=0; i<(int)strlen( string_list[curr_string] ); i++ )
 		{
 			glutBitmapCharacter( GLUT_BITMAP_HELVETICA_18, string_list[curr_string][i] );
@@ -278,6 +286,7 @@ void MeshGui::idle( void )
 	// GLUI_Master.sync_live_all();  -- not needed - nothing to sync in this application
 	glutPostRedisplay();
 }
+// GLUI control callback
 void MeshGui::control_cb( int control )
 {
 	float v[4];

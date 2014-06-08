@@ -1,10 +1,11 @@
 #pragma once
-
 #include <iostream>
-#include <string>
+#include <GL/glut.h>
+#include <GL/glui.h>
 #include "SmfModel.h"
 #include "Subdivision.h"
 
+// a GUI for mesh displaying
 class MeshGui
 {
 public:
@@ -30,17 +31,18 @@ private:
 	// GLUI control callback
 	static void control_cb( int control );
 	
+	// instance of SMF model
 	static SmfModel smf_model;
+	// instance of subdivision model
 	static Subdivision subd;
 
-	// shared variables
-	static float xy_aspect;
-	static int segments;
-	static float scale;
+	// shared variables between main programs and control callbacks
 	static int light0_enabled;
 	static int light1_enabled ;
 	static float light0_intensity;
 	static float light1_intensity;
+	static float xy_aspect;
+	static float scale;
 	static int radiogroup_item_id;
 	static char filename[];
 	static char filetext[sizeof(GLUI_String)];
@@ -50,8 +52,7 @@ private:
 	static GLUI_Spinner *light0_spinner, *light1_spinner;
 
 	static int main_window;
-	static float sphere_rotate[16];
-	static float torus_rotate[16];
+	static float mesh_rotate[16];
 	static float view_rotate[16];
 	static float obj_pos[];
 

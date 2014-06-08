@@ -4,6 +4,7 @@
 #include <GL/glui.h>
 #include "SmfModel.h"
 
+// output stream for testing
 std::ostream& operator<< (std::ostream& os, const SmfModel& model)
 {
 	// output vertices
@@ -26,16 +27,25 @@ std::ostream& operator<< (std::ostream& os, const SmfModel& model)
 		}
 		os << std::endl;
 	}
+	// output edges
+	for (std::set<std::pair<size_t, size_t> >::const_iterator it = model.edge_list.begin(); it != model.edge_list.end(); ++ it)
+	{
+		os << "e " << it->first << " " << it->second << std::endl;
+	}
     return os;
 }
+// constructor
 SmfModel::SmfModel(const std::string &file)
 {
+	// if no file specified
 	if (file.length() == 0)
 	{
 		return;
 	}
+	// load from file
 	this->loadFile(file);
 }
+// load from a file
 bool SmfModel::loadFile(const std::string &file)
 {
 	std::ifstream infile(file.c_str());
@@ -60,6 +70,7 @@ bool SmfModel::loadFile(const std::string &file)
 		std::istringstream iss(line.substr(1));
 		std::vector<GLfloat> vertex(3, 0.0);
 		std::vector<size_t> face(3, 0);
+		// switch by the leading character
 		switch (line[0])
 		{
 		case 'v': // load vertices
@@ -76,8 +87,9 @@ bool SmfModel::loadFile(const std::string &file)
 		}
 	}
 	infile.close();
-	return true;
+	return getEdgeList();
 }
+// save to file
 bool SmfModel::save(const std::string &filename)
 {
 	std::fstream file;
@@ -136,9 +148,11 @@ bool SmfModel::display(void)
 	}
 	glEnableClientState(GL_VERTEX_ARRAY);
 	glVertexPointer(3, GL_FLOAT, 0, vertex_array);
+	// draw triangles from array
 	glDrawArrays(GL_TRIANGLES, 0, vertex_num);
 	glDisableClientState(GL_VERTEX_ARRAY);*/
 
+	// draw triangles
 	glBegin(GL_TRIANGLES);
 	for (size_t i = 0; i < face_list.size(); ++ i)
 	{
@@ -150,4 +164,30 @@ bool SmfModel::display(void)
 	}
 	glEnd();
 	return true;
+}
+// get edge list based on vertex list and face list
+bool SmfModel::getEdgeList(void)
+{
+	edge_list.clear();
+	// for each face
+	for (std::vector<std::vector<size_t> >::iterator it = face_list.begin(); it != face_list.end(); ++ it)
+	{
+		std::vector<size_t>::iterator it1 = it->begin();
+		// start from the second item
+		for (++ it1; it1 != it->end(); ++ it1)
+		{
+			// remove duplicate edges
+			if (*(it1 - 1) < *it1)
+			{
+				// find edge with the previous item
+				edge_list.insert(std::make_pair(*(it1 - 1), *it1));
+			}
+		}
+		if (it->back() < it->front())
+		{
+			// find edge with the last and the first items
+			edge_list.insert(std::make_pair(it->back(), it->front()));
+		}
+	}
+	return EXIT_SUCCESS;
 }

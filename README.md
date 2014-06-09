@@ -10,7 +10,7 @@ smf_view
 - Allow rotation, zooming, and translation;
 - Allow input from and output to a mesh file in SMF;
 - A “Quit” button to exit from the GUI;
-- Input a triangle mesh given in SMF format and store the connectivity and geometric information in an appropriate data structure, and isplay the mesh in the display box of your GUI;
+- Input a triangle mesh given in SMF format and store the connectivity and geometric information in an appropriate data structure, and display the mesh in the display box of the GUI;
 
 ### Usage
 

@@ -24,6 +24,13 @@ $ cmake .
 $ make
 ```
 
+### Files
+
+main.cpp						main entrance
+MeshGui.h, MeshGui.cpp			OpenGL and GLUI setup
+SmfModel.h, SmfModel.cpp		SMF file input and output, data structure for vertices, edges, and faces
+Subdivision.h, Subdivision.cpp	attempt for the bonus problem
+
 ### Dependencies
 
 - OpenGL

@@ -52,7 +52,7 @@ MeshGui::MeshGui(void)
 int MeshGui::run(int argc, char *argv[])
 {
 	// debug
-	std::cout << smf_model << std::endl;
+	//std::cout << smf_model << std::endl;
 	subd.subdivide();
 	//std::cout << subd << std::endl;
 	this->initGlut(argc, argv);
@@ -203,24 +203,40 @@ void MeshGui::display(void)
 	glMultMatrixf( view_rotate );
 	glScalef( scale, scale, scale );
 
-	// draw the smf model
-	glPushMatrix();
-	glTranslatef( -.5, 0.0, 0.0 );
-	glMultMatrixf( mesh_rotate );
-	subd.display();
-	//smf_model.display();
-	glPopMatrix();
 	// shade with mesh edges displayed
 	if (3 == radiogroup_item_id)
 	{
-		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+
+		glPushMatrix();
+		glTranslatef( -.5, 0.0, 0.0 );
+		glShadeModel(GL_FLAT);
+		glPolygonMode( GL_FRONT_AND_BACK, GL_FILL );
+		glColor3f(0.9f, 0.9f, 0.9f);
+		smf_model.display();
+		glPopMatrix();
+		
 		glPushMatrix();
 		glTranslatef( -.5, 0.0, 0.0 );
 		glMultMatrixf( mesh_rotate );
+		glColorMaterial(GL_FRONT, GL_DIFFUSE);
+		glEnable(GL_COLOR_MATERIAL);
+		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+		glColor3f(0.0f, 0.0f, 0.0f);
+		smf_model.display();
+		glColor3f(0.9f, 0.9f, 0.9f);
+		glDisable(GL_COLOR_MATERIAL);
+		glPopMatrix();
+	}
+	else
+	{
+		// draw the smf model
+		glPushMatrix();
+		glTranslatef( -.5, 0.0, 0.0 );
+		glMultMatrixf( mesh_rotate );
+		glColor3f(0.9f, 0.9f, 0.9f);
+		//subd.display();
 		smf_model.display();
 		glPopMatrix();
-		glShadeModel(GL_FLAT);
-		glPolygonMode( GL_FRONT_AND_BACK, GL_FILL );
 	}
 
 	/*glPushMatrix();

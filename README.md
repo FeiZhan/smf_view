@@ -3,6 +3,8 @@ smf_view
 
 #### A Mesh Viewer for SMF format
 
+github: https://github.com/FeiZhan/smf_view
+
 ### Features
 
 - All features required are implemented;
@@ -33,19 +35,21 @@ $ make
 ### Claim
 
 I have read and understood the policy concerning collaboration on assignments.
+
 I have had discussions with the following fellow students
 - Rao Fu;
 - Ziyang Zhao.
+
 I have consulted the following outside sources
 - GLUI example 5;
 - Mepp https://github.com/MEPP-team/MEPP
 
 ### Files
 
-main.cpp						main entrance
-MeshGui.h, MeshGui.cpp			OpenGL and GLUI setup
-SmfModel.h, SmfModel.cpp		SMF file input and output, data structure for vertices, edges, and faces
-Subdivision.h, Subdivision.cpp	attempt for the bonus problem
+- main.cpp							main entrance
+- MeshGui.h, MeshGui.cpp			OpenGL and GLUI setup
+- SmfModel.h, SmfModel.cpp			SMF file input and output, data structure for vertices, edges, and faces
+- Subdivision.h, Subdivision.cpp	attempt for the bonus problem
 
 ### Dependencies
 

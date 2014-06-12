@@ -124,7 +124,7 @@ bool Subdivision::butterfly(void)
 					}
 				}
 			}
-			std::cout << "test " << it->first << " " << *it1 << " " << butterfly_list[0] << " " << butterfly_list[1];
+			//std::cout << "test " << it->first << " " << *it1 << " " << butterfly_list[0] << " " << butterfly_list[1];
 			for (size_t i = 0; i < new_pt.size(); ++ i)
 			{
 				new_pt[i] += 1.0 / 8.0 * (model.vertex_list[butterfly_list[0] - 1][i] + model.vertex_list[butterfly_list[1] - 1][i]);

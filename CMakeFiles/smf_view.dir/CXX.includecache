@@ -24,6 +24,20 @@ SmfModel.h
 Subdivision.h
 /home/fzhan/work/smf_view/Subdivision.h
 
+/home/fzhan/work/smf_view/SmfModel.cpp
+cmath
+-
+fstream
+-
+sstream
+-
+iomanip
+-
+GL/glui.h
+-
+SmfModel.h
+/home/fzhan/work/smf_view/SmfModel.h
+
 /home/fzhan/work/smf_view/SmfModel.h
 iostream
 -
@@ -33,8 +47,14 @@ vector
 -
 set
 -
+map
+-
 GL/glut.h
 -
+
+/home/fzhan/work/smf_view/Subdivision.cpp
+Subdivision.h
+/home/fzhan/work/smf_view/Subdivision.h
 
 /home/fzhan/work/smf_view/Subdivision.h
 iostream
@@ -49,4 +69,10 @@ map
 -
 SmfModel.h
 /home/fzhan/work/smf_view/SmfModel.h
+
+/home/fzhan/work/smf_view/main.cpp
+iostream
+-
+MeshGui.h
+/home/fzhan/work/smf_view/MeshGui.h
 

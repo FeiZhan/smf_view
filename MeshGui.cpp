@@ -25,11 +25,9 @@ float MeshGui::light0_intensity = 1.0;
 float MeshGui::light1_intensity = .4;
 float MeshGui::xy_aspect;
 float MeshGui::scale = 1.0;
-// id of the selected radio button
-int MeshGui::radiogroup_item_id = 0;
 // the default mesh file
-char MeshGui::filetext[sizeof(GLUI_String)] = "cube0"; // cube0 eight
-char MeshGui::filename[] = "smf/cube0.smf";
+char MeshGui::filetext[sizeof(GLUI_String)] = "sphere"; // cube0 eight bigsmile horse sphere
+char MeshGui::filename[] = "smf/sphere.smf";
 // text for debugging
 int MeshGui::show_text = false;
 const char *MeshGui::string_list[] = { "Hello World!", "Foo", "Testing...", "Bounding box: on" };
@@ -53,7 +51,7 @@ int MeshGui::run(int argc, char *argv[])
 {
 	// debug
 	//std::cout << smf_model << std::endl;
-	subd.subdivide();
+	//subd.subdivide();
 	//std::cout << subd << std::endl;
 	this->initGlut(argc, argv);
 	this->initGlui();
@@ -169,6 +167,9 @@ GLfloat MeshGui::lights_rotation[16] = {1,0,0,0, 0,1,0,0, 0,0,1,0, 0,0,0,1 };
 // initialize GL
 int MeshGui::initGl(void)
 {
+	// default shade type
+	glShadeModel(GL_FLAT);
+	glPolygonMode( GL_FRONT_AND_BACK, GL_FILL );
 	// set up OpenGL lights
 	glEnable(GL_LIGHTING);
 	glEnable( GL_NORMALIZE );
@@ -203,18 +204,29 @@ void MeshGui::display(void)
 	glMultMatrixf( view_rotate );
 	glScalef( scale, scale, scale );
 
-	// shade with mesh edges displayed
-	if (3 == radiogroup_item_id)
+	switch (radiogroup_item_id)
 	{
-
+	case 2:
+		// draw the smf model
 		glPushMatrix();
 		glTranslatef( -.5, 0.0, 0.0 );
-		glShadeModel(GL_FLAT);
+		glMultMatrixf( mesh_rotate );
+		glColor3f(0.9f, 0.9f, 0.9f);
+		//subd.display();
+		smf_model.display();
+		glPopMatrix();
+		break;
+	// shade with mesh edges displayed
+	case 3:
+		// the mesh itself
+		glPushMatrix();
+		glTranslatef( -.5, 0.0, 0.0 );
+		glMultMatrixf( mesh_rotate );
 		glPolygonMode( GL_FRONT_AND_BACK, GL_FILL );
 		glColor3f(0.9f, 0.9f, 0.9f);
 		smf_model.display();
 		glPopMatrix();
-		
+		// the edges
 		glPushMatrix();
 		glTranslatef( -.5, 0.0, 0.0 );
 		glMultMatrixf( mesh_rotate );
@@ -226,9 +238,9 @@ void MeshGui::display(void)
 		glColor3f(0.9f, 0.9f, 0.9f);
 		glDisable(GL_COLOR_MATERIAL);
 		glPopMatrix();
-	}
-	else
-	{
+		break;
+	case 1:
+	default:
 		// draw the smf model
 		glPushMatrix();
 		glTranslatef( -.5, 0.0, 0.0 );
@@ -237,6 +249,7 @@ void MeshGui::display(void)
 		//subd.display();
 		smf_model.display();
 		glPopMatrix();
+		break;
 	}
 
 	/*glPushMatrix();
@@ -349,10 +362,6 @@ void MeshGui::control_cb( int control )
 	case SHADING_MODE:
 		switch (radiogroup_item_id)
 		{
-		case 0: // flatShaded
-			glShadeModel(GL_FLAT);
-			glPolygonMode( GL_FRONT_AND_BACK, GL_FILL );
-			break;
 		case 1: // smoothShaded
 			glShadeModel(GL_SMOOTH);
 			glPolygonMode( GL_FRONT_AND_BACK, GL_FILL );
@@ -367,7 +376,10 @@ void MeshGui::control_cb( int control )
 		case 4: // point
 			glPolygonMode( GL_FRONT_AND_BACK, GL_POINT );
 			break;
+		case 0: // flatShaded
 		default:
+			glShadeModel(GL_FLAT);
+			glPolygonMode( GL_FRONT_AND_BACK, GL_FILL );
 			break;
 		}
 		break;

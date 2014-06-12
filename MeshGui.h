@@ -43,7 +43,6 @@ private:
 	static float light1_intensity;
 	static float xy_aspect;
 	static float scale;
-	static int radiogroup_item_id;
 	static char filename[];
 	static char filetext[sizeof(GLUI_String)];
 	static int show_text;

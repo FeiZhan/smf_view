@@ -3,6 +3,7 @@
 #include <string>
 #include <vector>
 #include <set>
+#include <map>
 #include <GL/glut.h>
 
 // a model for mesh display from SMF file
@@ -26,4 +27,8 @@ public:
 private:
 	// get edge list based on vertex list and face list
 	bool getEdgeList(void);
+	std::map<size_t, std::vector<GLfloat> > face_normals;
+	std::map<size_t, std::vector<GLfloat> > vertex_normals;
 };
+// id of the selected radio button
+static int radiogroup_item_id = 0;

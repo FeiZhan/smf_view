@@ -4,6 +4,7 @@
 #include <GL/glui.h>
 #include "SmfModel.h"
 #include "Subdivision.h"
+#include "Decimator.h"
 
 // a GUI for mesh displaying
 class MeshGui
@@ -32,9 +33,9 @@ private:
 	static void control_cb( int control );
 	
 	// instance of SMF model
-	static SmfModel smf_model;
+	static Decimator smf_model;
 	// instance of subdivision model
-	static Subdivision subd;
+	//static Subdivision subd;
 
 	// shared variables between main programs and control callbacks
 	static int light0_enabled;
@@ -62,4 +63,6 @@ private:
 	static GLfloat light1_diffuse[];
 	static GLfloat light1_position[];
 	static GLfloat lights_rotation[16];
+	
+	static int edge_number;
 };

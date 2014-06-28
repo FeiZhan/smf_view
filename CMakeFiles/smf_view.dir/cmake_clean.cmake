@@ -3,6 +3,7 @@ FILE(REMOVE_RECURSE
   "CMakeFiles/smf_view.dir/MeshGui.cpp.o"
   "CMakeFiles/smf_view.dir/SmfModel.cpp.o"
   "CMakeFiles/smf_view.dir/Subdivision.cpp.o"
+  "CMakeFiles/smf_view.dir/Decimator.cpp.o"
   "smf_view.pdb"
   "smf_view"
 )

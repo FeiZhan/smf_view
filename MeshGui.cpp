@@ -15,7 +15,9 @@ enum CtrlId
 	HIDE_ID,
 	INPUT_FILE,
 	OPEN_MESH,
-	SAVE_MESH
+	SAVE_MESH,
+	EDGE_NUMBER,
+	DECIMATE
 };
 
 // shared variables between main programs and control callbacks
@@ -39,9 +41,11 @@ float MeshGui::mesh_rotate[16] = { 1,0,0,0, 0,1,0,0, 0,0,1,0, 0,0,0,1 };
 float MeshGui::view_rotate[16] = { 1,0,0,0, 0,1,0,0, 0,0,1,0, 0,0,0,1 };
 float MeshGui::obj_pos[] = { 0.0, 0.0, 0.0 };
 
+int MeshGui::edge_number = 2;
+
 // initialization of SMF model
-SmfModel MeshGui::smf_model(MeshGui::filename);
-Subdivision MeshGui::subd(MeshGui::filename);
+Decimator MeshGui::smf_model(MeshGui::filename);
+//Subdivision MeshGui::subd(MeshGui::filename);
 
 // constructor
 MeshGui::MeshGui(void)
@@ -119,6 +123,11 @@ int MeshGui::initGlui(void)
 	sb->set_float_limits(0,1);
 	sb = new GLUI_Scrollbar( light1, "Blue",GLUI_SCROLL_HORIZONTAL, &light1_diffuse[2],LIGHT1_INTENSITY,control_cb);
 	sb->set_float_limits(0,1);
+
+	GLUI_Spinner *edge_spinner = new GLUI_Spinner(glui, "EdgeNumber", &edge_number, EDGE_NUMBER, control_cb );
+	edge_spinner->set_float_limits(2, 100);
+	new GLUI_Button(glui, "decimate", DECIMATE, control_cb );
+
 	// Link windows to GLUI, and register idle callback
 	glui->set_main_gfx_window( main_window );
 
@@ -212,8 +221,10 @@ void MeshGui::display(void)
 		glTranslatef( -.5, 0.0, 0.0 );
 		glMultMatrixf( mesh_rotate );
 		glColor3f(0.9f, 0.9f, 0.9f);
-		//subd.display();
+
 		smf_model.display();
+		//subd.display();
+
 		glPopMatrix();
 		break;
 	// shade with mesh edges displayed
@@ -224,7 +235,9 @@ void MeshGui::display(void)
 		glMultMatrixf( mesh_rotate );
 		glPolygonMode( GL_FRONT_AND_BACK, GL_FILL );
 		glColor3f(0.9f, 0.9f, 0.9f);
+
 		smf_model.display();
+
 		glPopMatrix();
 		// the edges
 		glPushMatrix();
@@ -234,7 +247,9 @@ void MeshGui::display(void)
 		glEnable(GL_COLOR_MATERIAL);
 		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 		glColor3f(0.0f, 0.0f, 0.0f);
+
 		smf_model.display();
+
 		glColor3f(0.9f, 0.9f, 0.9f);
 		glDisable(GL_COLOR_MATERIAL);
 		glPopMatrix();
@@ -246,8 +261,10 @@ void MeshGui::display(void)
 		glTranslatef( -.5, 0.0, 0.0 );
 		glMultMatrixf( mesh_rotate );
 		glColor3f(0.9f, 0.9f, 0.9f);
-		//subd.display();
+
 		smf_model.display();
+		//subd.display();
+
 		glPopMatrix();
 		break;
 	}
@@ -396,6 +413,14 @@ void MeshGui::control_cb( int control )
 	case SAVE_MESH:
 		std::cout << "saving file " << filename << std::endl;
 		smf_model.save(filename);
+		break;
+	case EDGE_NUMBER:
+		break;
+	case DECIMATE:
+		std::cout << "decimate with edge " << edge_number << std::endl;
+		smf_model.decimate(edge_number);
+		//std::cout << smf_model << std::endl;
+		glutPostRedisplay();
 		break;
 	default:
 		break;

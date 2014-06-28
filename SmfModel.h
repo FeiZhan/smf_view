@@ -14,6 +14,7 @@ public:
 	friend std::ostream& operator<< (std::ostream& os, const SmfModel& dt);
 	// constructor
 	SmfModel(const std::string &file = std::string());
+	virtual ~SmfModel(void) {}
 	// load from a file
 	bool loadFile(const std::string &file);
 	// save to file
@@ -24,7 +25,7 @@ public:
 	std::vector<std::vector<GLfloat> > vertex_list;
 	std::vector<std::vector<size_t> > face_list;
 	std::set<std::pair<size_t, size_t> > edge_list;
-private:
+protected:
 	// get edge list based on vertex list and face list
 	bool getEdgeList(void);
 	std::map<size_t, std::vector<GLfloat> > face_normals;

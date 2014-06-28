@@ -56,7 +56,7 @@ CMAKE_BINARY_DIR = /home/fzhan/work/smf_view
 CMakeFiles/smf_view.dir/all:
 	$(MAKE) -f CMakeFiles/smf_view.dir/build.make CMakeFiles/smf_view.dir/depend
 	$(MAKE) -f CMakeFiles/smf_view.dir/build.make CMakeFiles/smf_view.dir/build
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/fzhan/work/smf_view/CMakeFiles  1 2 3 4
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/fzhan/work/smf_view/CMakeFiles  1 2 3 4 5
 	@echo "Built target smf_view"
 .PHONY : CMakeFiles/smf_view.dir/all
 
@@ -66,7 +66,7 @@ all: CMakeFiles/smf_view.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/smf_view.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/fzhan/work/smf_view/CMakeFiles 4
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/fzhan/work/smf_view/CMakeFiles 5
 	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/smf_view.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/fzhan/work/smf_view/CMakeFiles 0
 .PHONY : CMakeFiles/smf_view.dir/rule

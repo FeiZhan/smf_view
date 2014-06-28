@@ -33,7 +33,7 @@ std::ostream& operator<< (std::ostream& os, const SmfModel& model)
 	{
 		os << "e " << it->first << " " << it->second << std::endl;
 	}
-    return os;
+	return os;
 }
 // constructor
 SmfModel::SmfModel(const std::string &file)

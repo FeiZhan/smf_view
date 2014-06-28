@@ -108,6 +108,30 @@ smf_view/fast:
 	$(MAKE) -f CMakeFiles/smf_view.dir/build.make CMakeFiles/smf_view.dir/build
 .PHONY : smf_view/fast
 
+Decimator.o: Decimator.cpp.o
+.PHONY : Decimator.o
+
+# target to build an object file
+Decimator.cpp.o:
+	$(MAKE) -f CMakeFiles/smf_view.dir/build.make CMakeFiles/smf_view.dir/Decimator.cpp.o
+.PHONY : Decimator.cpp.o
+
+Decimator.i: Decimator.cpp.i
+.PHONY : Decimator.i
+
+# target to preprocess a source file
+Decimator.cpp.i:
+	$(MAKE) -f CMakeFiles/smf_view.dir/build.make CMakeFiles/smf_view.dir/Decimator.cpp.i
+.PHONY : Decimator.cpp.i
+
+Decimator.s: Decimator.cpp.s
+.PHONY : Decimator.s
+
+# target to generate assembly for a file
+Decimator.cpp.s:
+	$(MAKE) -f CMakeFiles/smf_view.dir/build.make CMakeFiles/smf_view.dir/Decimator.cpp.s
+.PHONY : Decimator.cpp.s
+
 MeshGui.o: MeshGui.cpp.o
 .PHONY : MeshGui.o
 
@@ -213,6 +237,9 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... smf_view"
+	@echo "... Decimator.o"
+	@echo "... Decimator.i"
+	@echo "... Decimator.s"
 	@echo "... MeshGui.o"
 	@echo "... MeshGui.i"
 	@echo "... MeshGui.s"

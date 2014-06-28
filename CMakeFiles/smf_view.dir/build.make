@@ -138,12 +138,36 @@ CMakeFiles/smf_view.dir/Subdivision.cpp.o.provides: CMakeFiles/smf_view.dir/Subd
 
 CMakeFiles/smf_view.dir/Subdivision.cpp.o.provides.build: CMakeFiles/smf_view.dir/Subdivision.cpp.o
 
+CMakeFiles/smf_view.dir/Decimator.cpp.o: CMakeFiles/smf_view.dir/flags.make
+CMakeFiles/smf_view.dir/Decimator.cpp.o: Decimator.cpp
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/fzhan/work/smf_view/CMakeFiles $(CMAKE_PROGRESS_5)
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/smf_view.dir/Decimator.cpp.o"
+	/usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/smf_view.dir/Decimator.cpp.o -c /home/fzhan/work/smf_view/Decimator.cpp
+
+CMakeFiles/smf_view.dir/Decimator.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/smf_view.dir/Decimator.cpp.i"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/fzhan/work/smf_view/Decimator.cpp > CMakeFiles/smf_view.dir/Decimator.cpp.i
+
+CMakeFiles/smf_view.dir/Decimator.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/smf_view.dir/Decimator.cpp.s"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/fzhan/work/smf_view/Decimator.cpp -o CMakeFiles/smf_view.dir/Decimator.cpp.s
+
+CMakeFiles/smf_view.dir/Decimator.cpp.o.requires:
+.PHONY : CMakeFiles/smf_view.dir/Decimator.cpp.o.requires
+
+CMakeFiles/smf_view.dir/Decimator.cpp.o.provides: CMakeFiles/smf_view.dir/Decimator.cpp.o.requires
+	$(MAKE) -f CMakeFiles/smf_view.dir/build.make CMakeFiles/smf_view.dir/Decimator.cpp.o.provides.build
+.PHONY : CMakeFiles/smf_view.dir/Decimator.cpp.o.provides
+
+CMakeFiles/smf_view.dir/Decimator.cpp.o.provides.build: CMakeFiles/smf_view.dir/Decimator.cpp.o
+
 # Object files for target smf_view
 smf_view_OBJECTS = \
 "CMakeFiles/smf_view.dir/main.cpp.o" \
 "CMakeFiles/smf_view.dir/MeshGui.cpp.o" \
 "CMakeFiles/smf_view.dir/SmfModel.cpp.o" \
-"CMakeFiles/smf_view.dir/Subdivision.cpp.o"
+"CMakeFiles/smf_view.dir/Subdivision.cpp.o" \
+"CMakeFiles/smf_view.dir/Decimator.cpp.o"
 
 # External object files for target smf_view
 smf_view_EXTERNAL_OBJECTS =
@@ -152,6 +176,7 @@ smf_view: CMakeFiles/smf_view.dir/main.cpp.o
 smf_view: CMakeFiles/smf_view.dir/MeshGui.cpp.o
 smf_view: CMakeFiles/smf_view.dir/SmfModel.cpp.o
 smf_view: CMakeFiles/smf_view.dir/Subdivision.cpp.o
+smf_view: CMakeFiles/smf_view.dir/Decimator.cpp.o
 smf_view: /usr/lib/x86_64-linux-gnu/libGLU.so
 smf_view: /usr/lib/x86_64-linux-gnu/libGL.so
 smf_view: /usr/lib/x86_64-linux-gnu/libSM.so
@@ -175,6 +200,7 @@ CMakeFiles/smf_view.dir/requires: CMakeFiles/smf_view.dir/main.cpp.o.requires
 CMakeFiles/smf_view.dir/requires: CMakeFiles/smf_view.dir/MeshGui.cpp.o.requires
 CMakeFiles/smf_view.dir/requires: CMakeFiles/smf_view.dir/SmfModel.cpp.o.requires
 CMakeFiles/smf_view.dir/requires: CMakeFiles/smf_view.dir/Subdivision.cpp.o.requires
+CMakeFiles/smf_view.dir/requires: CMakeFiles/smf_view.dir/Decimator.cpp.o.requires
 .PHONY : CMakeFiles/smf_view.dir/requires
 
 CMakeFiles/smf_view.dir/clean:

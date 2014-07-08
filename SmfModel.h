@@ -28,6 +28,8 @@ public:
 protected:
 	// get edge list based on vertex list and face list
 	bool getEdgeList(void);
+	// get normals for each face and each vertex
+	bool getNormalList(void);
 	std::map<size_t, std::vector<GLfloat> > face_normals;
 	std::map<size_t, std::vector<GLfloat> > vertex_normals;
 	// get map of vertex - faces

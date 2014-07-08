@@ -72,6 +72,7 @@ int MeshGui::run(int argc, char *argv[])
 	this->initGlut(argc, argv);
 	this->initGlui();
 	this->initGl();
+	glutPostRedisplay();
 	return EXIT_SUCCESS;
 }
 // initialize GLUT
@@ -434,7 +435,6 @@ void MeshGui::control_cb( int control )
 	case DECIMATE:
 		std::cout << "decimate amongst " << edge_number << " edges, collapse " << collapse_percentage << " % edges" << std::endl;
 		smf_model.decimate(edge_number, collapse_percentage);
-		//std::cout << smf_model << std::endl;
 		glutPostRedisplay();
 		break;
 	default:

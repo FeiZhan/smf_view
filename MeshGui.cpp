@@ -55,6 +55,16 @@ MeshGui::MeshGui(void)
 // main entrance
 int MeshGui::run(int argc, char *argv[])
 {
+	if (argc > 1 && strlen(argv[1]) > 0)
+	{
+		// set default file name
+		strcpy(filetext, argv[1]);
+		std::string name(filetext);
+		name = std::string("smf/") + name + std::string(".smf");
+		strcpy(filename, name.c_str());
+		// initialization of SMF model
+		smf_model.loadFile(MeshGui::filename);
+	}
 	// debug
 	//std::cout << smf_model << std::endl;
 	//subd.subdivide();
@@ -413,10 +423,8 @@ void MeshGui::control_cb( int control )
 	case OPEN_MESH:
 		smf_model.loadFile(filename);
 		glutPostRedisplay();
-		std::cout << "loadFile " << filename << std::endl;
 		break;
 	case SAVE_MESH:
-		std::cout << "saving file " << filename << std::endl;
 		smf_model.save(filename);
 		break;
 	case EDGE_NUMBER:

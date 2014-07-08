@@ -133,7 +133,9 @@ bool SmfModel::loadFile(const std::string &file)
 		std::cout << std::endl;
 	}*/
 	infile.close();
-	return getEdgeList();
+	std::cout << "loadFile " << file << std::endl;
+	// parse edge list and face map
+	return getEdgeList() && getFaceMap();
 }
 // save to file
 bool SmfModel::save(const std::string &filename)
@@ -174,6 +176,8 @@ bool SmfModel::save(const std::string &filename)
 		}
 	}
 	file.close();
+std::cout << "saving file " << filename << std::endl;
+	return true;
 }
 // display the model
 bool SmfModel::display(void)
@@ -255,3 +259,30 @@ bool SmfModel::getEdgeList(void)
 	}
 	return EXIT_SUCCESS;
 }
+// get map of vertex - faces
+bool SmfModel::getFaceMap(void)
+{
+	face_map.clear();
+	for (size_t i = 0; i < face_list.size(); ++ i)
+	{
+		for (size_t j = 0; j < face_list[i].size(); ++ j)
+		{
+			face_map[j].insert(i);
+		}
+	}
+	return true;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+

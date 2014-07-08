@@ -16,6 +16,8 @@ std::ostream& operator<< (std::ostream& os, const Decimator& de)
 // decimate it
 int Decimator::decimate(int num, int percentage)
 {
+	// get quadric error and matrix list for each vertex
+	getQuadricList();
 	size_t original_size = edge_list.size();
 	srand( time(NULL) );
 	// reduce edge number to the percentage
@@ -32,7 +34,7 @@ int Decimator::decimate(int num, int percentage)
 		// find the candidate edge with least error
 		for (std::set<size_t>::iterator it = candidates.begin(); it != candidates.end(); ++ it)
 		{
-			double quadric = this->getEdgeQuadricError(*it);
+			double quadric = quadric_error_list[*it];
 			if (quadric < least_quadric_error)
 			{
 				least_quadric_error = quadric;
@@ -85,20 +87,24 @@ int Decimator::decimate(int num, int percentage)
 	//std::cout << "percentage " << edge_list.size() << " / " << original_size << std::endl;
 	return EXIT_SUCCESS;
 }
-// edge quadric error
-double Decimator::getEdgeQuadricError(size_t edge)
+// get quadric error and matrix list for each vertex
+bool Decimator::getQuadricList(void)
 {
-	std::set<std::pair<size_t, size_t> >::iterator edge_it = edge_list.begin();
-	// find the edge
-	std::advance(edge_it, edge);
-	//@bug sum up vertex errors
-	return this->getQuadricError(edge_it->first) + this->getQuadricError(edge_it->second);
+	quadric_matrix_list.clear();
+	quadric_error_list.clear();
+	// for each vertex
+	for (size_t i = 0; i < vertex_list.size(); ++ i)
+	{
+		quadric_matrix_list.insert( std::make_pair(i, getQuadricMatrix(i)) );
+		quadric_error_list.insert( std::make_pair(i, getQuadricError(i)) );
+	}
+	return true;
 }
 // vertex quadric error
 double Decimator::getQuadricError(size_t vertex)
 {
 	// get error quadric matrix
-	std::vector<std::vector<double> > Q( this->getQuadricMatrix(vertex) );
+	std::vector<std::vector<double> > Q( quadric_matrix_list[vertex] );
 	// copy the position of the vertex
 	std::vector<GLfloat> v( vertex_list[vertex] );
 	// turn it into a vector of 4 values
@@ -121,48 +127,33 @@ std::vector<std::vector<double> > Decimator::getQuadricMatrix(size_t vertex)
 {
 	// quadric matrix
 	std::vector<std::vector<double> > Q(4, std::vector<double> (4, 0.0));
-	// find connected faces
-	for (std::vector<std::vector<size_t> >::iterator it = face_list.begin(); it != face_list.end(); ++ it)
+	// for connected faces
+	for (std::set<size_t>::iterator it = face_map[vertex].begin(); it != face_map[vertex].end(); ++ it)
 	{
 		// fundamental error quadric
 		std::vector<std::vector<double> > Kp(4, std::vector<double> (4, 0.0));
-		bool flag = false;
-		// for each vertex in the face
-		for (std::vector<size_t>::iterator it1 = it->begin(); it1 != it->end(); ++ it1)
-		{
-			// if find the vertex in the face
-			if (*it1 == vertex)
-			{
-				flag = true;
-				break;
-			}
-		}
-		// if the face connects with the target vertex
-		if (flag)
-		{
-			// copy the position of each vertex in the face
-			std::vector<GLfloat> &A( vertex_list[(*it)[0] - 1] ), &B( vertex_list[(*it)[1] - 1] ), &C( vertex_list[(*it)[2] - 1] );
-			// the parameters of a plane (a, b, c, d)
-			double plane[4] = {0.0, 0.0, 0.0, 0.0};
-			plane[0] = (B[1] - A[1]) * (C[2] - A[2]) - (C[1] - A[1]) * (B[2] - A[2]);
-			plane[1] = (B[2] - A[2]) * (C[0] - A[0]) - (C[2] - A[2]) * (B[0] - A[0]);
-			plane[2] = (B[0] - A[0]) * (C[1] - A[1]) - (C[0] - A[0]) * (B[1] - A[1]);
-			// normalize it with a^2 + b^2 + c^2 = 1
-			double normalizer = sqrt( plane[0] * plane[0] + plane[1] * plane[1] + plane[2] * plane[2] );
-			plane[0] /= normalizer;
-			plane[1] /= normalizer;
-			plane[2] /= normalizer;
+		// copy the position of each vertex in the face
+		std::vector<GLfloat> &A( vertex_list[face_list[*it][0] - 1] ), &B( vertex_list[face_list[*it][1] - 1] ), &C( vertex_list[face_list[*it][2] - 1] );
+		// the parameters of a plane (a, b, c, d)
+		double plane[4] = {0.0, 0.0, 0.0, 0.0};
+		plane[0] = (B[1] - A[1]) * (C[2] - A[2]) - (C[1] - A[1]) * (B[2] - A[2]);
+		plane[1] = (B[2] - A[2]) * (C[0] - A[0]) - (C[2] - A[2]) * (B[0] - A[0]);
+		plane[2] = (B[0] - A[0]) * (C[1] - A[1]) - (C[0] - A[0]) * (B[1] - A[1]);
+		// normalize it with a^2 + b^2 + c^2 = 1
+		double normalizer = sqrt( plane[0] * plane[0] + plane[1] * plane[1] + plane[2] * plane[2] );
+		plane[0] /= normalizer;
+		plane[1] /= normalizer;
+		plane[2] /= normalizer;
 //std::cout << "normalize " << plane[0] * plane[0] + plane[1] * plane[1] + plane[2] * plane[2] << std::endl;
-			plane[3] = - (plane[0] * A[0] + plane[1] * A[1] + plane[2] * A[2]);
-			for (size_t i = 0; i < 4; ++ i)
+		plane[3] = - (plane[0] * A[0] + plane[1] * A[1] + plane[2] * A[2]);
+		for (size_t i = 0; i < 4; ++ i)
+		{
+			for (size_t j = 0; j < 4; ++ j)
 			{
-				for (size_t j = 0; j < 4; ++ j)
-				{
-					// compute Kp = p p^{T}
-					Kp[i][j] = plane[i] * plane[j];
-					// sum up to get quadric
-					Q[i][j] += Kp[i][j];
-				}
+				// compute Kp = p p^{T}
+				Kp[i][j] = plane[i] * plane[j];
+				// sum up to get quadric
+				Q[i][j] += Kp[i][j];
 			}
 		}
 	}
@@ -175,7 +166,7 @@ std::vector<GLfloat> Decimator::getNewLocation(size_t edge)
 	// find the edge
 	std::advance(edge_it, edge);
 	// get vertex quadric matrices of the edge
-	std::vector<std::vector<double> > quadrics( this->getQuadricMatrix(edge_it->first) ), q( this->getQuadricMatrix(edge_it->second) );
+	std::vector<std::vector<double> > quadrics( quadric_matrix_list[edge_it->first] ), q( quadric_matrix_list[edge_it->second] );
 	// sum up to get edge quadric matrix
 	for (size_t i = 0; i < quadrics.size() && i < q.size(); ++ i)
 	{

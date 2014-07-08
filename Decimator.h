@@ -13,9 +13,11 @@ public:
 	virtual ~Decimator(void) {}
 	// decimate it
 	int decimate(int num, int percentage = 50);
-private:
-	// edge quadric error
-	double getEdgeQuadricError(size_t edge);
+protected:
+	// get quadric error and matrix list for each vertex
+	bool getQuadricList(void);
+	std::map<size_t, double > quadric_error_list;
+	std::map<size_t, std::vector<std::vector<double> > > quadric_matrix_list;
 	// vertex quadric error
 	double getQuadricError(size_t vertex);
 	// get vertex quadric matrix

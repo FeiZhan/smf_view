@@ -49,13 +49,13 @@ private:
 	static int show_text;
 	static const char *string_list[];
 	static int curr_string;
+	// variables for GLUI
 	static GLUI_Spinner *light0_spinner, *light1_spinner;
-
 	static int main_window;
 	static float mesh_rotate[16];
 	static float view_rotate[16];
 	static float obj_pos[];
-
+	// parameters for lighting
 	static GLfloat light0_ambient[];
 	static GLfloat light0_diffuse[];
 	static GLfloat light0_position[];
@@ -63,7 +63,7 @@ private:
 	static GLfloat light1_diffuse[];
 	static GLfloat light1_position[];
 	static GLfloat lights_rotation[16];
-	// paramter for decimation
+	// paramters for decimation
 	static int edge_number;
 	static int collapse_percentage;
 };

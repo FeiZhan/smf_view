@@ -17,6 +17,7 @@ enum CtrlId
 	OPEN_MESH,
 	SAVE_MESH,
 	EDGE_NUMBER,
+	COLLAPSE_NUMBER,
 	DECIMATE
 };
 
@@ -42,6 +43,7 @@ float MeshGui::view_rotate[16] = { 1,0,0,0, 0,1,0,0, 0,0,1,0, 0,0,0,1 };
 float MeshGui::obj_pos[] = { 0.0, 0.0, 0.0 };
 
 int MeshGui::edge_number = 2;
+int MeshGui::collapse_percentage = 50;
 
 // initialization of SMF model
 Decimator MeshGui::smf_model(MeshGui::filename);
@@ -123,9 +125,12 @@ int MeshGui::initGlui(void)
 	sb->set_float_limits(0,1);
 	sb = new GLUI_Scrollbar( light1, "Blue",GLUI_SCROLL_HORIZONTAL, &light1_diffuse[2],LIGHT1_INTENSITY,control_cb);
 	sb->set_float_limits(0,1);
-
+	// edge number to randomly choose from
 	GLUI_Spinner *edge_spinner = new GLUI_Spinner(glui, "EdgeNumber", &edge_number, EDGE_NUMBER, control_cb );
 	edge_spinner->set_float_limits(2, 100);
+	// edge percentage to collapse
+	GLUI_Spinner *percentage_spinner = new GLUI_Spinner(glui, "CollapsePercentage%", &collapse_percentage, COLLAPSE_NUMBER, control_cb );
+	percentage_spinner->set_float_limits(1, 100);
 	new GLUI_Button(glui, "decimate", DECIMATE, control_cb );
 
 	// Link windows to GLUI, and register idle callback
@@ -416,9 +421,11 @@ void MeshGui::control_cb( int control )
 		break;
 	case EDGE_NUMBER:
 		break;
+	case COLLAPSE_NUMBER:
+		break;
 	case DECIMATE:
-		std::cout << "decimate with edge " << edge_number << std::endl;
-		smf_model.decimate(edge_number);
+		std::cout << "decimate amongst " << edge_number << " edges, collapse " << collapse_percentage << " % edges" << std::endl;
+		smf_model.decimate(edge_number, collapse_percentage);
 		//std::cout << smf_model << std::endl;
 		glutPostRedisplay();
 		break;

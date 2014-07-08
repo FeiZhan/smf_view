@@ -1,7 +1,8 @@
-#include <cstdlib>     /* srand, rand */
-#include <ctime>       /* time */
+#include <cstdlib>
+#include <ctime>
 #include <climits>
 #include <cfloat>
+#include <cmath>
 #include "Decimator.h"
 
 // output stream for testing
@@ -12,12 +13,13 @@ std::ostream& operator<< (std::ostream& os, const Decimator& de)
 	os << model;
 	return os;
 }
-int Decimator::decimate(int num)
+// decimate it
+int Decimator::decimate(int num, int percentage)
 {
 	size_t original_size = edge_list.size();
-	srand (time(NULL));
-	// reduce edge number to half
-	while (edge_list.size() * 2 > original_size)
+	srand( time(NULL) );
+	// reduce edge number to the percentage
+	while (edge_list.size() > original_size * percentage / 100)
 	{
 		std::set<size_t> candidates;
 		// choose num candidate edges randomly
@@ -80,196 +82,215 @@ int Decimator::decimate(int num)
 		// remove the edge
 		edge_list.erase(least_edge);
 	}
+	//std::cout << "percentage " << edge_list.size() << " / " << original_size << std::endl;
 	return EXIT_SUCCESS;
 }
+// edge quadric error
 double Decimator::getEdgeQuadricError(size_t edge)
 {
 	std::set<std::pair<size_t, size_t> >::iterator edge_it = edge_list.begin();
 	// find the edge
 	std::advance(edge_it, edge);
-	// sum up vertex errors
+	//@bug sum up vertex errors
 	return this->getQuadricError(edge_it->first) + this->getQuadricError(edge_it->second);
 }
+// vertex quadric error
 double Decimator::getQuadricError(size_t vertex)
 {
-	std::vector<std::vector<double> > Kp( this->getQuadrics(vertex) );
+	// get error quadric matrix
+	std::vector<std::vector<double> > Q( this->getQuadricMatrix(vertex) );
+	// copy the position of the vertex
 	std::vector<GLfloat> v( vertex_list[vertex] );
+	// turn it into a vector of 4 values
 	v.push_back(1.0);
-	double error = 0;
+	double error = 0.0;
+	// error = v^{T} Q v
 	for (size_t i = 0; i < 4; ++ i)
 	{
-		double e = 0;
+		double e = 0.0;
 		for (size_t j = 0; j < 4; ++ j)
 		{
-			e += Kp[j][i] * v[j];
+			e += v[j] * Q[j][i];
 		}
 		error += e * v[i];
 	}
 	return error;
 }
-std::vector<std::vector<double> > Decimator::getQuadrics(size_t vertex)
+// get vertex quadric matrix
+std::vector<std::vector<double> > Decimator::getQuadricMatrix(size_t vertex)
 {
-	std::vector<std::vector<double> > Kp(4, std::vector<double> (4, 0.0));
+	// quadric matrix
+	std::vector<std::vector<double> > Q(4, std::vector<double> (4, 0.0));
+	// find connected faces
 	for (std::vector<std::vector<size_t> >::iterator it = face_list.begin(); it != face_list.end(); ++ it)
 	{
+		// fundamental error quadric
+		std::vector<std::vector<double> > Kp(4, std::vector<double> (4, 0.0));
 		bool flag = false;
+		// for each vertex in the face
 		for (std::vector<size_t>::iterator it1 = it->begin(); it1 != it->end(); ++ it1)
 		{
+			// if find the vertex in the face
 			if (*it1 == vertex)
 			{
 				flag = true;
 				break;
 			}
 		}
+		// if the face connects with the target vertex
 		if (flag)
 		{
+			// copy the position of each vertex in the face
 			std::vector<GLfloat> &A( vertex_list[(*it)[0] - 1] ), &B( vertex_list[(*it)[1] - 1] ), &C( vertex_list[(*it)[2] - 1] );
+			// the parameters of a plane (a, b, c, d)
 			double plane[4] = {0.0, 0.0, 0.0, 0.0};
 			plane[0] = (B[1] - A[1]) * (C[2] - A[2]) - (C[1] - A[1]) * (B[2] - A[2]);
 			plane[1] = (B[2] - A[2]) * (C[0] - A[0]) - (C[2] - A[2]) * (B[0] - A[0]);
 			plane[2] = (B[0] - A[0]) * (C[1] - A[1]) - (C[0] - A[0]) * (B[1] - A[1]);
+			// normalize it with a^2 + b^2 + c^2 = 1
+			double normalizer = sqrt( plane[0] * plane[0] + plane[1] * plane[1] + plane[2] * plane[2] );
+			plane[0] /= normalizer;
+			plane[1] /= normalizer;
+			plane[2] /= normalizer;
+//std::cout << "normalize " << plane[0] * plane[0] + plane[1] * plane[1] + plane[2] * plane[2] << std::endl;
 			plane[3] = - (plane[0] * A[0] + plane[1] * A[1] + plane[2] * A[2]);
 			for (size_t i = 0; i < 4; ++ i)
 			{
 				for (size_t j = 0; j < 4; ++ j)
 				{
-					Kp[i][j] += plane[i] * plane[j];
+					// compute Kp = p p^{T}
+					Kp[i][j] = plane[i] * plane[j];
+					// sum up to get quadric
+					Q[i][j] += Kp[i][j];
 				}
 			}
 		}
 	}
-	return Kp;
+	return Q;
 }
+// get new location for vertex
 std::vector<GLfloat> Decimator::getNewLocation(size_t edge)
 {
 	std::set<std::pair<size_t, size_t> >::iterator edge_it = edge_list.begin();
+	// find the edge
 	std::advance(edge_it, edge);
-	std::vector<std::vector<double> > quadrics( this->getQuadrics(edge_it->first) ), q( this->getQuadrics(edge_it->second) );
+	// get vertex quadric matrices of the edge
+	std::vector<std::vector<double> > quadrics( this->getQuadricMatrix(edge_it->first) ), q( this->getQuadricMatrix(edge_it->second) );
+	// sum up to get edge quadric matrix
 	for (size_t i = 0; i < quadrics.size() && i < q.size(); ++ i)
 	{
-		for (size_t j = 0; j < quadrics[i].size() && j < q[i].size(); ++ i)
+		for (size_t j = 0; j < quadrics[i].size() && j < q[i].size(); ++ j)
 		{
 			quadrics[i][j] += q[i][j];
 		}
 	}
 	quadrics[3][0] = quadrics[3][1] = quadrics[3][2] = 0.0;
 	quadrics[3][3] = 1;
+	// invert the matrix
 	std::vector<std::vector<double> > inv( this->invertMatrix(quadrics) );
 	std::vector<GLfloat> new_vertex(4, 0.0);
+	// compute the new vertex from the last column of the inverted matrix
 	for (size_t i = 0; i < 4; ++ i)
 	{
 		new_vertex[i] = inv[i][3];
 	}
 	return new_vertex;
 }
+// get matrix inverse
 std::vector<std::vector<double> > Decimator::invertMatrix(const std::vector<std::vector<double> > &mat)
 {
 	std::vector<std::vector<double> > inv(mat.size(), std::vector<double> (mat.size(), 0.0));
+	// assuming 4 x 4 matrix
 	inv[0][0] =	mat[1][0]  * mat[2][2] * mat[3][3] - 
 				mat[1][0]  * mat[2][3] * mat[3][2] - 
 				mat[2][1]  * mat[1][2]  * mat[3][3] + 
 				mat[2][1]  * mat[1][3]  * mat[3][2] +
 				mat[3][1] * mat[1][2]  * mat[2][3] - 
 				mat[3][1] * mat[1][3]  * mat[2][2];
-
 	inv[1][0] =	-mat[1][0]  * mat[2][2] * mat[3][3] + 
 				mat[1][0]  * mat[2][3] * mat[3][2] + 
 				mat[2][0]  * mat[1][2]  * mat[3][3] - 
 				mat[2][0]  * mat[1][3]  * mat[3][2] - 
 				mat[3][0] * mat[1][2]  * mat[2][3] + 
 				mat[3][0] * mat[1][3]  * mat[2][2];
-
 	inv[2][0] =	mat[1][0]  * mat[2][1] * mat[3][3] - 
 				mat[1][0]  * mat[2][3] * mat[3][1] - 
 				mat[2][0]  * mat[1][0] * mat[3][3] + 
 				mat[2][0]  * mat[1][3] * mat[3][1] + 
 				mat[3][0] * mat[1][0] * mat[2][3] - 
 				mat[3][0] * mat[1][3] * mat[2][1];
-
 	inv[3][0] = -mat[1][0]  * mat[2][1] * mat[3][2] + 
-			   mat[1][0]  * mat[2][2] * mat[3][1] +
-			   mat[2][0]  * mat[1][0] * mat[3][2] - 
-			   mat[2][0]  * mat[1][2] * mat[3][1] - 
-			   mat[3][0] * mat[1][0] * mat[2][2] + 
-			   mat[3][0] * mat[1][2] * mat[2][1];
-
+				mat[1][0]  * mat[2][2] * mat[3][1] +
+				mat[2][0]  * mat[1][0] * mat[3][2] - 
+				mat[2][0]  * mat[1][2] * mat[3][1] - 
+				mat[3][0] * mat[1][0] * mat[2][2] + 
+				mat[3][0] * mat[1][2] * mat[2][1];
 	inv[0][1] = -mat[0][1]  * mat[2][2] * mat[3][3] + 
 				mat[0][1]  * mat[2][3] * mat[3][2] + 
 				mat[2][1]  * mat[0][2] * mat[3][3] - 
 				mat[2][1]  * mat[0][3] * mat[3][2] - 
 				mat[3][1] * mat[0][2] * mat[2][3] + 
 				mat[3][1] * mat[0][3] * mat[2][2];
-
-	inv[1][0] = mat[0][0]  * mat[2][2] * mat[3][3] - 
+	inv[1][1] = mat[0][0]  * mat[2][2] * mat[3][3] - 
 				mat[0][0]  * mat[2][3] * mat[3][2] - 
 				mat[2][0]  * mat[0][2] * mat[3][3] + 
 				mat[2][0]  * mat[0][3] * mat[3][2] + 
 				mat[3][0] * mat[0][2] * mat[2][3] - 
 				mat[3][0] * mat[0][3] * mat[2][2];
-
 	inv[2][1] = -mat[0][0]  * mat[2][1] * mat[3][3] + 
 				mat[0][0]  * mat[2][3] * mat[3][1] + 
 				mat[2][0]  * mat[0][1] * mat[3][3] - 
 				mat[2][0]  * mat[0][3] * mat[3][1] - 
 				mat[3][0] * mat[0][1] * mat[2][3] + 
 				mat[3][0] * mat[0][3] * mat[2][1];
-
 	inv[3][1] = mat[0][0]  * mat[2][1] * mat[3][2] - 
 				mat[0][0]  * mat[2][2] * mat[3][1] - 
 				mat[2][0]  * mat[0][1] * mat[3][2] + 
 				mat[2][0]  * mat[0][2] * mat[3][1] + 
 				mat[3][0] * mat[0][1] * mat[2][2] - 
 				mat[3][0] * mat[0][2] * mat[2][1];
-
 	inv[0][2] = mat[0][1]  * mat[1][2] * mat[3][3] - 
 				mat[0][1]  * mat[1][3] * mat[3][2] - 
 				mat[1][0]  * mat[0][2] * mat[3][3] + 
 				mat[1][0]  * mat[0][3] * mat[3][2] + 
 				mat[3][1] * mat[0][2] * mat[1][3] - 
 				mat[3][1] * mat[0][3] * mat[1][2];
-
 	inv[1][2] = -mat[0][0]  * mat[1][2] * mat[3][3] + 
 				mat[0][0]  * mat[1][3] * mat[3][2] + 
 				mat[1][0]  * mat[0][2] * mat[3][3] - 
 				mat[1][0]  * mat[0][3] * mat[3][2] - 
 				mat[3][0] * mat[0][2] * mat[1][3] + 
 				mat[3][0] * mat[0][3] * mat[1][2];
-
 	inv[2][2] = mat[0][0]  * mat[1][0] * mat[3][3] - 
 				mat[0][0]  * mat[1][3] * mat[3][1] - 
 				mat[1][0]  * mat[0][1] * mat[3][3] + 
 				mat[1][0]  * mat[0][3] * mat[3][1] + 
 				mat[3][0] * mat[0][1] * mat[1][3] - 
 				mat[3][0] * mat[0][3] * mat[1][0];
-
 	inv[3][2] = -mat[0][0]  * mat[1][0] * mat[3][2] + 
 				mat[0][0]  * mat[1][2] * mat[3][1] + 
 				mat[1][0]  * mat[0][1] * mat[3][2] - 
 				mat[1][0]  * mat[0][2] * mat[3][1] - 
 				mat[3][0] * mat[0][1] * mat[1][2] + 
 				mat[3][0] * mat[0][2] * mat[1][0];
-
 	inv[0][3] = -mat[0][1] * mat[1][2] * mat[2][3] + 
 				mat[0][1] * mat[1][3] * mat[2][2] + 
 				mat[1][0] * mat[0][2] * mat[2][3] - 
 				mat[1][0] * mat[0][3] * mat[2][2] - 
 				mat[2][1] * mat[0][2] * mat[1][3] + 
 				mat[2][1] * mat[0][3] * mat[1][2];
-
 	inv[1][3] = mat[0][0] * mat[1][2] * mat[2][3] - 
 				mat[0][0] * mat[1][3] * mat[2][2] - 
 				mat[1][0] * mat[0][2] * mat[2][3] + 
 				mat[1][0] * mat[0][3] * mat[2][2] + 
 				mat[2][0] * mat[0][2] * mat[1][3] - 
 				mat[2][0] * mat[0][3] * mat[1][2];
-
 	inv[2][3] = -mat[0][0] * mat[1][0] * mat[2][3] + 
 				mat[0][0] * mat[1][3] * mat[2][1] + 
 				mat[1][0] * mat[0][1] * mat[2][3] - 
 				mat[1][0] * mat[0][3] * mat[2][1] - 
 				mat[2][0] * mat[0][1] * mat[1][3] + 
 				mat[2][0] * mat[0][3] * mat[1][0];
-
 	inv[3][3] = mat[0][0] * mat[1][0] * mat[2][2] - 
 				mat[0][0] * mat[1][2] * mat[2][1] - 
 				mat[1][0] * mat[0][1] * mat[2][2] + 
@@ -277,13 +298,16 @@ std::vector<std::vector<double> > Decimator::invertMatrix(const std::vector<std:
 				mat[2][0] * mat[0][1] * mat[1][2] - 
 				mat[2][0] * mat[0][2] * mat[1][0];
 
+	// get determinant
 	double det = mat[0][0] * inv[0][0] + mat[0][1] * inv[1][0] + mat[0][2] * inv[2][0] + mat[0][3] * inv[3][0];
+	// not invertible
 	if (det == 0)
 	{
-		return inv;
+		return std::vector<std::vector<double> > ();
 	}
+	// inverse
 	det = 1.0 / det;
-	for (size_t i = 0; i < inv.size(); i ++)
+	for (size_t i = 0; i < inv.size(); ++ i)
 	{
 		for (size_t j = 0; j < inv[i].size(); ++ j)
 		{

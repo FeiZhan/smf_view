@@ -63,6 +63,7 @@ private:
 	static GLfloat light1_diffuse[];
 	static GLfloat light1_position[];
 	static GLfloat lights_rotation[16];
-	
+	// paramter for decimation
 	static int edge_number;
+	static int collapse_percentage;
 };

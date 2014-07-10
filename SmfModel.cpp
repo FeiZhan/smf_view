@@ -80,6 +80,10 @@ bool SmfModel::loadFile(const std::string &file)
 			break;
 		case 'f': // load faces
 			iss >> face[0] >> face[1] >> face[2];
+			for (size_t i = 0; i < 3; ++ i)
+			{
+				-- face[i];
+			}
 			face_list.push_back(face);
 			break;
 		case '#':
@@ -125,7 +129,8 @@ bool SmfModel::save(const std::string &filename)
 			file << "f";
 			for (std::vector<size_t>::iterator it1 = it->begin(); it1 != it->end(); ++ it1)
 			{
-				file << " " << *it1;
+				// offset by one
+				file << " " << (*it1) + 1;
 			}
 			file << std::endl;
 		}
@@ -162,10 +167,15 @@ bool SmfModel::display(void)
 	glBegin(GL_TRIANGLES);
 	for (size_t i = 0; i < face_list.size(); ++ i)
 	{
+		// face removed
+		if (face_list[i].size() < 3)
+		{
+			continue;
+		}
 		for (size_t j = 0; j < face_list[i].size(); ++ j)
 		{
-			// face or vertex removed
-			if (face_list[i][j] < 1 || vertex_list[ face_list[i][j] - 1 ].size() < 3)
+			// vertex removed
+			if (vertex_list[ face_list[i][j] ].size() < 3)
 			{
 				continue;
 			}
@@ -181,7 +191,7 @@ bool SmfModel::display(void)
 			}
 			glNormal3f(normal[0], normal[1], normal[2]);
 			// draw triangles based on faces and vertices
-			glVertex3f(vertex_list[ face_list[i][j] - 1 ][0], vertex_list[ face_list[i][j] - 1 ][1], vertex_list[ face_list[i][j] - 1 ][2]);
+			glVertex3f(vertex_list[ face_list[i][j] ][0], vertex_list[ face_list[i][j] ][1], vertex_list[ face_list[i][j] ][2]);
 		}
 	}
 	glEnd();
@@ -226,8 +236,8 @@ bool SmfModel::getNormalList(void)
 		// compute the face normal
 		for (size_t j = 0; j < 3; ++ j)
 		{
-			temp0[j] = vertex_list[ (*it)[1] - 1 ][j] - vertex_list[ (*it)[0] - 1 ][j];
-			temp1[j] = vertex_list[ (*it)[2] - 1 ][j] - vertex_list[ (*it)[1] - 1 ][j];
+			temp0[j] = vertex_list[ (*it)[1] ][j] - vertex_list[ (*it)[0] ][j];
+			temp1[j] = vertex_list[ (*it)[2] ][j] - vertex_list[ (*it)[1] ][j];
 		}
 		normal[0] = temp0[1] * temp1[2] - temp0[2] * temp1[1];
 		normal[1] = temp1[0] * temp0[2] - temp1[2] * temp0[0];
@@ -238,7 +248,7 @@ bool SmfModel::getNormalList(void)
 		{
 			normal[j] /= length;
 		}
-		face_normals.insert(std::make_pair(face_list.size() - 1, normal));
+		face_normals.insert(std::make_pair(it - face_list.begin(), normal));
 		// compute the vertex normal
 		for (size_t j = 0; j < 3; ++ j)
 		{
@@ -291,6 +301,19 @@ bool SmfModel::getFaceMap(void)
 	}
 	return true;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

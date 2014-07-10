@@ -69,6 +69,19 @@ int MeshGui::run(int argc, char *argv[])
 	//std::cout << smf_model << std::endl;
 	//subd.subdivide();
 	//std::cout << subd << std::endl;
+	std::vector<std::vector<double> > mat(4, std::vector<double>(4, 0.0));
+	mat[0][0] = mat[1][1] = mat[2][2] = mat[3][3] = 1.0;
+	//mat = smf_model.invertMatrix(mat);
+	std::cout << "mat " << mat.size() << std::endl;
+	for (size_t i = 0; i < mat.size(); ++ i)
+	{
+		for (size_t j = 0; j < mat[i].size(); ++ j)
+		{
+			std::cout << mat[i][j] << " ";
+		}
+		std::cout << std::endl;
+	}
+
 	this->initGlut(argc, argv);
 	this->initGlui();
 	this->initGl();

@@ -13,7 +13,7 @@ public:
 	virtual ~Decimator(void) {}
 	// decimate it
 	int decimate(int num, int percentage = 50);
-protected:
+public:
 	// get quadric error and matrix list for each vertex
 	bool getQuadricList(void);
 	std::map<size_t, double > quadric_error_list;

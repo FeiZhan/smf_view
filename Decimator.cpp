@@ -327,7 +327,7 @@ std::vector<std::vector<double> > Decimator::invertMatrix(const std::vector<std:
 	// get determinant
 	double det = mat[0][0] * inv[0][0] + mat[0][1] * inv[1][0] + mat[0][2] * inv[2][0] + mat[0][3] * inv[3][0];
 	// not invertible
-	if (det == 0)
+	if (0.0 == det)
 	{
 		return std::vector<std::vector<double> > ();
 	}

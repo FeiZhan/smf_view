@@ -16,7 +16,6 @@ std::ostream& operator<< (std::ostream& os, const Decimator& de)
 // decimate it
 int Decimator::decimate(int num, int percentage)
 {
-std::cout << "decimate " << 0 << std::endl;
 	// get quadric error and matrix list for each vertex
 	getQuadricList();
 	size_t original_size = edge_list.size();
@@ -24,7 +23,6 @@ std::cout << "decimate " << 0 << std::endl;
 	// reduce edge number to the percentage
 	while (edge_list.size() > original_size * (100 - percentage) / 100)
 	{
-std::cout << "decimate " << 1 << std::endl;
 		std::set<size_t> candidates;
 		// choose num candidate edges randomly
 		for (size_t i = 0; i < num; ++ i)
@@ -43,7 +41,6 @@ std::cout << "decimate " << 1 << std::endl;
 				least = it;
 			}
 		}
-std::cout << "decimate " << 2 << std::endl;
 		// find the edge with least error
 		std::set<std::pair<size_t, size_t> >::iterator least_edge = edge_list.begin();
 		std::advance(least_edge, *least);
@@ -61,7 +58,6 @@ std::cout << "decimate " << 2 << std::endl;
 				}
 			}
 			std::vector<size_t>::iterator second_it = it->end();
-std::cout << "decimate " << 3 << std::endl;
 			// find second vertex
 			for (std::vector<size_t>::iterator it1 = it->begin(); it1 != it->end(); ++ it1)
 			{
@@ -84,16 +80,14 @@ std::cout << "decimate " << 3 << std::endl;
 				// change to the first vertex
 				*second_it = least_edge->first;
 			}
-std::cout << "decimate " << 4 << std::endl;
 		}
 		// set the new location
-		vertex_list[least_edge->first - 1] = getNewLocation(*least);
+		//vertex_list[least_edge->first] = getNewLocation(*least);
 		// remove the edge
 		edge_list.erase(least_edge);
 		// remove the vertex
-		//vertex_list[least_edge->second - 1] = std::vector<GLfloat>();
+		//vertex_list[least_edge->second] = std::vector<GLfloat>();
 	}
-std::cout << "decimate " << 5 << std::endl;
 	// re-compute normals
 	getNormalList();
 	// re-compute face maps
@@ -109,8 +103,8 @@ bool Decimator::getQuadricList(void)
 	// for each vertex
 	for (size_t i = 0; i < vertex_list.size(); ++ i)
 	{
-		quadric_matrix_list.insert( std::make_pair(i, getQuadricMatrix(i + 1)) );
-		quadric_error_list.insert( std::make_pair(i, getQuadricError(i + 1)) );
+		quadric_matrix_list.insert( std::make_pair(i, getQuadricMatrix(i)) );
+		quadric_error_list.insert( std::make_pair(i, getQuadricError(i)) );
 	}
 	return true;
 }
@@ -118,9 +112,9 @@ bool Decimator::getQuadricList(void)
 double Decimator::getQuadricError(size_t vertex)
 {
 	// get error quadric matrix
-	std::vector<std::vector<double> > Q( quadric_matrix_list[vertex - 1] );
+	std::vector<std::vector<double> > Q( quadric_matrix_list[vertex] );
 	// copy the position of the vertex
-	std::vector<GLfloat> v( vertex_list[vertex - 1] );
+	std::vector<GLfloat> v( vertex_list[vertex] );
 	// turn it into a vector of 4 values
 	v.push_back(1.0);
 	double error = 0.0;
@@ -148,7 +142,7 @@ std::vector<std::vector<double> > Decimator::getQuadricMatrix(size_t vertex)
 		// fundamental error quadric
 		std::vector<std::vector<double> > Kp(4, std::vector<double> (4, 0.0));
 		// copy the position of each vertex in the face
-		std::vector<GLfloat> &A( vertex_list[face_list[*it][0] - 1] ), &B( vertex_list[face_list[*it][1] - 1] ), &C( vertex_list[face_list[*it][2] - 1] );
+		std::vector<GLfloat> &A( vertex_list[face_list[*it][0]] ), &B( vertex_list[face_list[*it][1]] ), &C( vertex_list[face_list[*it][2]] );
 		// the parameters of a plane (a, b, c, d)
 		plane[0] = (B[1] - A[1]) * (C[2] - A[2]) - (C[1] - A[1]) * (B[2] - A[2]);
 		plane[1] = (B[2] - A[2]) * (C[0] - A[0]) - (C[2] - A[2]) * (B[0] - A[0]);
@@ -158,7 +152,6 @@ std::vector<std::vector<double> > Decimator::getQuadricMatrix(size_t vertex)
 		plane[0] /= normalizer;
 		plane[1] /= normalizer;
 		plane[2] /= normalizer;
-//std::cout << "normalize " << plane[0] * plane[0] + plane[1] * plane[1] + plane[2] * plane[2] << std::endl;
 		plane[3] = - (plane[0] * A[0] + plane[1] * A[1] + plane[2] * A[2]);
 		for (size_t i = 0; i < 4; ++ i)
 		{
@@ -176,37 +169,31 @@ std::vector<std::vector<double> > Decimator::getQuadricMatrix(size_t vertex)
 // get new location for vertex
 std::vector<GLfloat> Decimator::getNewLocation(size_t edge)
 {
-std::cout << "getNewLocation " << 0 << std::endl;
 	std::set<std::pair<size_t, size_t> >::iterator edge_it = edge_list.begin();
 	// find the edge
 	std::advance(edge_it, edge);
-std::cout << 1 << std::endl;
 	// get vertex quadric matrices of the edge
 	std::vector<std::vector<double> > quadrics( quadric_matrix_list[edge_it->first] ), q( quadric_matrix_list[edge_it->second] );
 	// sum up to get edge quadric matrix
 	for (size_t i = 0; i < quadrics.size() && i < q.size(); ++ i)
 	{
-std::cout << 2 << " " << i << std::endl;
 		for (size_t j = 0; j < quadrics[i].size() && j < q[i].size(); ++ j)
 		{
 			quadrics[i][j] += q[i][j];
 		}
 	}
-std::cout << 3 << std::endl;
 	quadrics[3][0] = quadrics[3][1] = quadrics[3][2] = 0.0;
-	quadrics[3][3] = 1;
+	quadrics[3][3] = 1.0;
 	// invert the matrix
 	std::vector<std::vector<double> > inv( this->invertMatrix(quadrics) );
 	std::vector<GLfloat> new_vertex(4, 0.0);
-std::cout << 4 << std::endl;
 	// not invertible
 	if (inv.size() < 4)
 	{
 		// compute the new vertex from the center of the edge
 		for (size_t i = 0; i < 3; ++ i)
 		{
-			new_vertex[i] = (vertex_list[edge_it->first - 1][i] + vertex_list[edge_it->second - 1][i]) / 2.0;
-std::cout << "new " << i << " " << new_vertex[i] << std::endl;
+			new_vertex[i] = (vertex_list[edge_it->first][i] + vertex_list[edge_it->second][i]) / 2.0;
 		}
 		new_vertex[3] = 1.0;
 	}
@@ -215,11 +202,9 @@ std::cout << "new " << i << " " << new_vertex[i] << std::endl;
 		// compute the new vertex from the last column of the inverted matrix
 		for (size_t i = 0; i < 4 && i < inv.size(); ++ i)
 		{
-std::cout << "inv " << i << " " << inv[i].size() << std::endl;
 			new_vertex[i] = inv[i][3];
 		}
 	}
-std::cout << 5 << std::endl;
 	return new_vertex;
 }
 // get matrix inverse
@@ -227,109 +212,140 @@ std::vector<std::vector<double> > Decimator::invertMatrix(const std::vector<std:
 {
 	std::vector<std::vector<double> > inv(mat.size(), std::vector<double> (mat.size(), 0.0));
 	// assuming 4 x 4 matrix
-	inv[0][0] =	mat[1][0]  * mat[2][2] * mat[3][3] - 
-				mat[1][0]  * mat[2][3] * mat[3][2] - 
-				mat[2][1]  * mat[1][2]  * mat[3][3] + 
-				mat[2][1]  * mat[1][3]  * mat[3][2] +
-				mat[3][1] * mat[1][2]  * mat[2][3] - 
-				mat[3][1] * mat[1][3]  * mat[2][2];
-	inv[1][0] =	-mat[1][0]  * mat[2][2] * mat[3][3] + 
-				mat[1][0]  * mat[2][3] * mat[3][2] + 
-				mat[2][0]  * mat[1][2]  * mat[3][3] - 
-				mat[2][0]  * mat[1][3]  * mat[3][2] - 
-				mat[3][0] * mat[1][2]  * mat[2][3] + 
-				mat[3][0] * mat[1][3]  * mat[2][2];
-	inv[2][0] =	mat[1][0]  * mat[2][1] * mat[3][3] - 
-				mat[1][0]  * mat[2][3] * mat[3][1] - 
-				mat[2][0]  * mat[1][0] * mat[3][3] + 
-				mat[2][0]  * mat[1][3] * mat[3][1] + 
-				mat[3][0] * mat[1][0] * mat[2][3] - 
-				mat[3][0] * mat[1][3] * mat[2][1];
-	inv[3][0] = -mat[1][0]  * mat[2][1] * mat[3][2] + 
-				mat[1][0]  * mat[2][2] * mat[3][1] +
-				mat[2][0]  * mat[1][0] * mat[3][2] - 
-				mat[2][0]  * mat[1][2] * mat[3][1] - 
-				mat[3][0] * mat[1][0] * mat[2][2] + 
-				mat[3][0] * mat[1][2] * mat[2][1];
-	inv[0][1] = -mat[0][1]  * mat[2][2] * mat[3][3] + 
-				mat[0][1]  * mat[2][3] * mat[3][2] + 
-				mat[2][1]  * mat[0][2] * mat[3][3] - 
-				mat[2][1]  * mat[0][3] * mat[3][2] - 
-				mat[3][1] * mat[0][2] * mat[2][3] + 
-				mat[3][1] * mat[0][3] * mat[2][2];
-	inv[1][1] = mat[0][0]  * mat[2][2] * mat[3][3] - 
-				mat[0][0]  * mat[2][3] * mat[3][2] - 
-				mat[2][0]  * mat[0][2] * mat[3][3] + 
-				mat[2][0]  * mat[0][3] * mat[3][2] + 
-				mat[3][0] * mat[0][2] * mat[2][3] - 
-				mat[3][0] * mat[0][3] * mat[2][2];
-	inv[2][1] = -mat[0][0]  * mat[2][1] * mat[3][3] + 
-				mat[0][0]  * mat[2][3] * mat[3][1] + 
-				mat[2][0]  * mat[0][1] * mat[3][3] - 
-				mat[2][0]  * mat[0][3] * mat[3][1] - 
-				mat[3][0] * mat[0][1] * mat[2][3] + 
-				mat[3][0] * mat[0][3] * mat[2][1];
-	inv[3][1] = mat[0][0]  * mat[2][1] * mat[3][2] - 
-				mat[0][0]  * mat[2][2] * mat[3][1] - 
-				mat[2][0]  * mat[0][1] * mat[3][2] + 
-				mat[2][0]  * mat[0][2] * mat[3][1] + 
-				mat[3][0] * mat[0][1] * mat[2][2] - 
-				mat[3][0] * mat[0][2] * mat[2][1];
-	inv[0][2] = mat[0][1]  * mat[1][2] * mat[3][3] - 
-				mat[0][1]  * mat[1][3] * mat[3][2] - 
-				mat[1][0]  * mat[0][2] * mat[3][3] + 
-				mat[1][0]  * mat[0][3] * mat[3][2] + 
-				mat[3][1] * mat[0][2] * mat[1][3] - 
-				mat[3][1] * mat[0][3] * mat[1][2];
-	inv[1][2] = -mat[0][0]  * mat[1][2] * mat[3][3] + 
-				mat[0][0]  * mat[1][3] * mat[3][2] + 
-				mat[1][0]  * mat[0][2] * mat[3][3] - 
-				mat[1][0]  * mat[0][3] * mat[3][2] - 
-				mat[3][0] * mat[0][2] * mat[1][3] + 
-				mat[3][0] * mat[0][3] * mat[1][2];
-	inv[2][2] = mat[0][0]  * mat[1][0] * mat[3][3] - 
-				mat[0][0]  * mat[1][3] * mat[3][1] - 
-				mat[1][0]  * mat[0][1] * mat[3][3] + 
-				mat[1][0]  * mat[0][3] * mat[3][1] + 
-				mat[3][0] * mat[0][1] * mat[1][3] - 
-				mat[3][0] * mat[0][3] * mat[1][0];
-	inv[3][2] = -mat[0][0]  * mat[1][0] * mat[3][2] + 
-				mat[0][0]  * mat[1][2] * mat[3][1] + 
-				mat[1][0]  * mat[0][1] * mat[3][2] - 
-				mat[1][0]  * mat[0][2] * mat[3][1] - 
-				mat[3][0] * mat[0][1] * mat[1][2] + 
-				mat[3][0] * mat[0][2] * mat[1][0];
-	inv[0][3] = -mat[0][1] * mat[1][2] * mat[2][3] + 
-				mat[0][1] * mat[1][3] * mat[2][2] + 
-				mat[1][0] * mat[0][2] * mat[2][3] - 
-				mat[1][0] * mat[0][3] * mat[2][2] - 
-				mat[2][1] * mat[0][2] * mat[1][3] + 
-				mat[2][1] * mat[0][3] * mat[1][2];
-	inv[1][3] = mat[0][0] * mat[1][2] * mat[2][3] - 
-				mat[0][0] * mat[1][3] * mat[2][2] - 
-				mat[1][0] * mat[0][2] * mat[2][3] + 
-				mat[1][0] * mat[0][3] * mat[2][2] + 
-				mat[2][0] * mat[0][2] * mat[1][3] - 
-				mat[2][0] * mat[0][3] * mat[1][2];
-	inv[2][3] = -mat[0][0] * mat[1][0] * mat[2][3] + 
-				mat[0][0] * mat[1][3] * mat[2][1] + 
-				mat[1][0] * mat[0][1] * mat[2][3] - 
-				mat[1][0] * mat[0][3] * mat[2][1] - 
-				mat[2][0] * mat[0][1] * mat[1][3] + 
-				mat[2][0] * mat[0][3] * mat[1][0];
-	inv[3][3] = mat[0][0] * mat[1][0] * mat[2][2] - 
-				mat[0][0] * mat[1][2] * mat[2][1] - 
-				mat[1][0] * mat[0][1] * mat[2][2] + 
-				mat[1][0] * mat[0][2] * mat[2][1] + 
-				mat[2][0] * mat[0][1] * mat[1][2] - 
-				mat[2][0] * mat[0][2] * mat[1][0];
-
+	inv[0][0] =	mat[1][1]  * mat[2][2] * mat[3][3] +
+				mat[1][2]  * mat[2][3] * mat[3][1] +
+				mat[1][3]  * mat[2][1]  * mat[3][2] -
+				mat[1][1]  * mat[2][3]  * mat[3][2] -
+				mat[1][2] * mat[2][1]  * mat[3][3] - 
+				mat[1][3] * mat[2][2]  * mat[3][1];
+	inv[0][1] =	mat[0][1]  * mat[2][3] * mat[3][2] +
+				mat[0][2]  * mat[2][1] * mat[3][3] +
+				mat[0][3]  * mat[2][2]  * mat[3][1] -
+				mat[0][1]  * mat[2][2]  * mat[3][3] -
+				mat[0][2] * mat[2][3]  * mat[3][1] -
+				mat[0][3] * mat[2][1]  * mat[3][2];
+	inv[0][2] =	mat[0][1]  * mat[1][2] * mat[3][3] +
+				mat[0][2]  * mat[1][3] * mat[3][2] +
+				mat[0][3]  * mat[1][1] * mat[3][2] -
+				mat[0][1]  * mat[1][3] * mat[3][2] -
+				mat[0][2] * mat[1][1] * mat[3][3] -
+				mat[0][3] * mat[1][2] * mat[3][1];
+	inv[0][3] = mat[0][1]  * mat[1][3] * mat[2][2] +
+				mat[0][2]  * mat[1][1] * mat[2][3] +
+				mat[0][3]  * mat[1][2] * mat[2][1] -
+				mat[0][1]  * mat[1][2] * mat[2][3] -
+				mat[0][2] * mat[1][3] * mat[2][1] -
+				mat[0][3] * mat[1][1] * mat[2][2];
+	inv[1][0] = mat[1][0]  * mat[2][3] * mat[3][2] +
+				mat[1][2]  * mat[2][1] * mat[3][3] +
+				mat[1][3]  * mat[2][2] * mat[3][0] -
+				mat[1][0]  * mat[2][2] * mat[3][3] -
+				mat[1][2] * mat[2][3] * mat[3][0] -
+				mat[1][3] * mat[2][0] * mat[3][2];
+	inv[1][1] = mat[0][0]  * mat[2][2] * mat[3][3] +
+				mat[0][2]  * mat[2][3] * mat[3][0] +
+				mat[0][3]  * mat[2][0] * mat[3][2] -
+				mat[0][0]  * mat[2][3] * mat[3][2] -
+				mat[0][3] * mat[2][0] * mat[3][3] -
+				mat[0][3] * mat[2][2] * mat[3][0];
+	inv[1][2] = mat[0][0]  * mat[1][3] * mat[3][2] +
+				mat[0][2]  * mat[1][0] * mat[3][3] +
+				mat[0][3]  * mat[1][2] * mat[3][0] -
+				mat[0][0]  * mat[1][2] * mat[3][3] -
+				mat[0][2] * mat[1][3] * mat[3][0] -
+				mat[0][3] * mat[1][0] * mat[3][2];
+	inv[1][3] = mat[0][0]  * mat[1][2] * mat[2][3] +
+				mat[0][2]  * mat[1][3] * mat[2][0] +
+				mat[0][3]  * mat[1][0] * mat[2][2] -
+				mat[0][0]  * mat[1][3] * mat[2][2] -
+				mat[0][2] * mat[1][0] * mat[2][3] - 
+				mat[0][3] * mat[1][2] * mat[2][0];
+	inv[2][0] = mat[1][0]  * mat[2][1] * mat[3][3] +
+				mat[1][1]  * mat[2][3] * mat[3][0] +
+				mat[1][3]  * mat[2][0] * mat[3][1] -
+				mat[1][0]  * mat[2][3] * mat[3][1] -
+				mat[1][1] * mat[2][0] * mat[3][3] - 
+				mat[1][3] * mat[2][1] * mat[3][0];
+	inv[2][1] = mat[0][0]  * mat[2][3] * mat[3][1] +
+				mat[0][1]  * mat[2][0] * mat[3][3] +
+				mat[0][3]  * mat[2][1] * mat[3][0] -
+				mat[0][0]  * mat[2][1] * mat[3][3] -
+				mat[0][2] * mat[2][3] * mat[3][0] -
+				mat[0][3] * mat[2][0] * mat[3][1];
+	inv[2][2] = mat[0][0]  * mat[1][1] * mat[3][3] +
+				mat[0][1]  * mat[1][3] * mat[3][1] +
+				mat[0][3]  * mat[1][0] * mat[3][1] -
+				mat[0][0]  * mat[0][3] * mat[3][1] -
+				mat[0][1] * mat[1][0] * mat[3][3] -
+				mat[0][3] * mat[1][1] * mat[3][0];
+				//
+	inv[3][2] = mat[0][0]  * mat[1][3] * mat[2][1] +
+				mat[0][1]  * mat[1][0] * mat[2][3] +
+				mat[0][3]  * mat[1][1] * mat[2][0] -
+				mat[0][0]  * mat[1][1] * mat[2][3] -
+				mat[0][1] * mat[1][3] * mat[2][0] -
+				mat[0][3] * mat[1][0] * mat[2][1];
+	inv[3][0] = mat[1][0] * mat[2][2] * mat[3][1] +
+				mat[1][1] * mat[2][0] * mat[3][2] +
+				mat[1][2] * mat[2][1] * mat[3][0] -
+				mat[1][0] * mat[2][1] * mat[3][2] -
+				mat[1][1] * mat[2][2] * mat[3][0] -
+				mat[1][2] * mat[2][0] * mat[3][1];
+	inv[3][1] = mat[0][0] * mat[2][1] * mat[3][2] +
+				mat[0][1] * mat[2][2] * mat[3][0] +
+				mat[0][2] * mat[2][0] * mat[3][1] -
+				mat[0][0] * mat[2][2] * mat[3][1] -
+				mat[0][1] * mat[2][0] * mat[3][2] - 
+				mat[0][2] * mat[2][1] * mat[3][0];
+	inv[3][2] = mat[0][0] * mat[1][2] * mat[3][1] +
+				mat[0][1] * mat[1][0] * mat[3][2] +
+				mat[0][2] * mat[1][1] * mat[3][0] -
+				mat[0][0] * mat[1][1] * mat[3][2] -
+				mat[0][1] * mat[1][2] * mat[3][0] -
+				mat[0][2] * mat[1][0] * mat[3][1];
+	inv[3][3] = mat[0][0] * mat[1][1] * mat[2][2] +
+				mat[0][1] * mat[1][2] * mat[2][0] +
+				mat[0][2] * mat[1][0] * mat[2][1] -
+				mat[0][0] * mat[1][2] * mat[2][1] -
+				mat[0][1] * mat[1][0] * mat[2][2] -
+				mat[0][2] * mat[1][1] * mat[2][0];
 	// get determinant
-	double det = mat[0][0] * inv[0][0] + mat[0][1] * inv[1][0] + mat[0][2] * inv[2][0] + mat[0][3] * inv[3][0];
+	double det =	mat[0][0] * mat[1][1] * mat[2][2] * mat[3][3] +
+					mat[0][0] * mat[1][2] * mat[2][3] * mat[3][1] +
+					mat[0][0] * mat[1][3] * mat[2][1] * mat[3][2] +
+
+					mat[0][1] * mat[1][0] * mat[2][3] * mat[3][2] +
+					mat[0][1] * mat[1][2] * mat[2][0] * mat[3][3] +
+					mat[0][1] * mat[1][3] * mat[2][2] * mat[3][0] +
+
+					mat[0][2] * mat[1][0] * mat[2][1] * mat[3][3] +
+					mat[0][2] * mat[1][1] * mat[2][3] * mat[3][0] +
+					mat[0][2] * mat[1][3] * mat[2][0] * mat[3][1] +
+
+					mat[0][3] * mat[1][0] * mat[2][2] * mat[3][1] +
+					mat[0][3] * mat[1][1] * mat[2][0] * mat[3][2] +
+					mat[0][3] * mat[1][2] * mat[2][1] * mat[3][0] +
+
+					mat[0][0] * mat[1][1] * mat[2][3] * mat[3][2] -
+					mat[0][0] * mat[1][2] * mat[2][1] * mat[3][3] -
+					mat[0][0] * mat[1][3] * mat[2][2] * mat[3][1] -
+
+					mat[0][1] * mat[1][0] * mat[2][2] * mat[3][3] -
+					mat[0][1] * mat[1][2] * mat[2][3] * mat[3][0] -
+					mat[0][1] * mat[1][3] * mat[2][0] * mat[3][2] -
+
+					mat[0][2] * mat[1][0] * mat[2][3] * mat[3][1] -
+					mat[0][2] * mat[1][1] * mat[2][0] * mat[3][3] -
+					mat[0][2] * mat[1][3] * mat[2][1] * mat[3][0] -
+
+					mat[0][3] * mat[1][0] * mat[2][1] * mat[3][2] -
+					mat[0][3] * mat[1][1] * mat[2][2] * mat[3][0] -
+					mat[0][3] * mat[1][2] * mat[2][0] * mat[3][1];
 	// not invertible
 	if (0.0 == det)
 	{
 		return std::vector<std::vector<double> > ();
+		//det = 1.0;
 	}
 	// inverse
 	det = 1.0 / det;

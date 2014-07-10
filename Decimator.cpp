@@ -27,14 +27,17 @@ int Decimator::decimate(int num, int percentage)
 		// choose num candidate edges randomly
 		for (size_t i = 0; i < num; ++ i)
 		{
-			candidates.insert( std::rand() % edge_list.size() );
+			size_t r = std::rand() % edge_list.size();
+			candidates.insert(r);
 		}
 		double least_quadric_error = DBL_MAX;
 		std::set<size_t>::iterator least;
 		// find the candidate edge with least error
 		for (std::set<size_t>::iterator it = candidates.begin(); it != candidates.end(); ++ it)
 		{
-			double quadric = quadric_error_list[*it];
+			std::set<std::pair<size_t, size_t> >::iterator edge_it = edge_list.begin();
+			std::advance(edge_it, *it);
+			double quadric = quadric_error_list[ edge_it->first ] + quadric_error_list[ edge_it->second ];
 			if (quadric < least_quadric_error)
 			{
 				least_quadric_error = quadric;
@@ -81,12 +84,14 @@ int Decimator::decimate(int num, int percentage)
 				*second_it = least_edge->first;
 			}
 		}
-		// set the new location
-		//vertex_list[least_edge->first] = getNewLocation(*least);
 		// remove the edge
 		edge_list.erase(least_edge);
 		// remove the vertex
-		//vertex_list[least_edge->second] = std::vector<GLfloat>();
+		vertex_list[least_edge->second] = std::vector<GLfloat>();
+		// set the new location
+		//vertex_list[least_edge->first] = getNewLocation(*least);
+		// re-compute edges
+		getEdgeList();
 	}
 	// re-compute normals
 	getNormalList();
@@ -111,6 +116,11 @@ bool Decimator::getQuadricList(void)
 // vertex quadric error
 double Decimator::getQuadricError(size_t vertex)
 {
+	// removed vertex
+	if (vertex_list[vertex].size() < 3)
+	{
+		return DBL_MAX;
+	}
 	// get error quadric matrix
 	std::vector<std::vector<double> > Q( quadric_matrix_list[vertex] );
 	// copy the position of the vertex
@@ -133,6 +143,11 @@ double Decimator::getQuadricError(size_t vertex)
 // get vertex quadric matrix
 std::vector<std::vector<double> > Decimator::getQuadricMatrix(size_t vertex)
 {
+	// removed vertex
+	if (vertex_list[vertex].size() < 3)
+	{
+		return std::vector<std::vector<double> >();
+	}
 	// quadric matrix
 	std::vector<std::vector<double> > Q(4, std::vector<double> (4, 0.0));
 	double plane[4] = {0.0, 0.0, 0.0, 0.0};
@@ -278,7 +293,6 @@ std::vector<std::vector<double> > Decimator::invertMatrix(const std::vector<std:
 				mat[0][0]  * mat[0][3] * mat[3][1] -
 				mat[0][1] * mat[1][0] * mat[3][3] -
 				mat[0][3] * mat[1][1] * mat[3][0];
-				//
 	inv[3][2] = mat[0][0]  * mat[1][3] * mat[2][1] +
 				mat[0][1]  * mat[1][0] * mat[2][3] +
 				mat[0][3]  * mat[1][1] * mat[2][0] -
@@ -345,7 +359,6 @@ std::vector<std::vector<double> > Decimator::invertMatrix(const std::vector<std:
 	if (0.0 == det)
 	{
 		return std::vector<std::vector<double> > ();
-		//det = 1.0;
 	}
 	// inverse
 	det = 1.0 / det;

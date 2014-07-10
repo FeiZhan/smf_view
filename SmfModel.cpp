@@ -168,7 +168,7 @@ bool SmfModel::display(void)
 	for (size_t i = 0; i < face_list.size(); ++ i)
 	{
 		// face removed
-		if (face_list[i].size() < 3)
+		if (face_list[i].size() < 3 || vertex_list[ face_list[i][0] ].size() < 3 || vertex_list[ face_list[i][1] ].size() < 3 || vertex_list[ face_list[i][2] ].size() < 3)
 		{
 			continue;
 		}
@@ -277,15 +277,6 @@ bool SmfModel::getNormalList(void)
 			(it->second)[k] /= length;
 		}
 	}
-	/*for (std::map<size_t, std::vector<GLfloat> >::iterator it = vertex_normals.begin(); it != vertex_normals.end(); ++ it)
-	{
-		std::cout << it->first << " " << it->second.size() << ": ";
-		for (std::vector<GLfloat>::iterator it1 = it->second.begin(); it1 != it->second.end(); ++ it1)
-		{
-			std::cout << *it1 << " ";
-		}
-		std::cout << std::endl;
-	}*/
 	return true;
 }
 // get map of vertex - faces

@@ -43,7 +43,7 @@ float MeshGui::view_rotate[16] = { 1,0,0,0, 0,1,0,0, 0,0,1,0, 0,0,0,1 };
 float MeshGui::obj_pos[] = { 0.0, 0.0, 0.0 };
 
 int MeshGui::edge_number = 2;
-int MeshGui::collapse_percentage = 50;
+int MeshGui::collapse_percentage = 10;
 
 // initialization of SMF model
 Decimator MeshGui::smf_model(MeshGui::filename);

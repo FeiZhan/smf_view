@@ -23,7 +23,7 @@ public:
 	// get vertex quadric matrix
 	std::vector<std::vector<double> > getQuadricMatrix(size_t vertex);
 	// get new location for vertex
-	std::vector<GLfloat> getNewLocation(size_t edge);
+	std::vector<GLfloat> getNewLocation(const std::set<std::pair<size_t, size_t> >::iterator &edge_it);
 	// get matrix inverse
 	std::vector<std::vector<double> > invertMatrix(const std::vector<std::vector<double> > &mat);
 };

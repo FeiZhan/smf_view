@@ -89,7 +89,7 @@ int Decimator::decimate(int num, int percentage)
 		// remove the vertex
 		vertex_list[least_edge->second] = std::vector<GLfloat>();
 		// set the new location
-		//vertex_list[least_edge->first] = getNewLocation(*least);
+		vertex_list[least_edge->first] = getNewLocation(least_edge);
 		// re-compute edges
 		getEdgeList();
 	}
@@ -182,11 +182,8 @@ std::vector<std::vector<double> > Decimator::getQuadricMatrix(size_t vertex)
 	return Q;
 }
 // get new location for vertex
-std::vector<GLfloat> Decimator::getNewLocation(size_t edge)
+std::vector<GLfloat> Decimator::getNewLocation(const std::set<std::pair<size_t, size_t> >::iterator &edge_it)
 {
-	std::set<std::pair<size_t, size_t> >::iterator edge_it = edge_list.begin();
-	// find the edge
-	std::advance(edge_it, edge);
 	// get vertex quadric matrices of the edge
 	std::vector<std::vector<double> > quadrics( quadric_matrix_list[edge_it->first] ), q( quadric_matrix_list[edge_it->second] );
 	// sum up to get edge quadric matrix
@@ -231,7 +228,7 @@ std::vector<std::vector<double> > Decimator::invertMatrix(const std::vector<std:
 				mat[1][2]  * mat[2][3] * mat[3][1] +
 				mat[1][3]  * mat[2][1]  * mat[3][2] -
 				mat[1][1]  * mat[2][3]  * mat[3][2] -
-				mat[1][2] * mat[2][1]  * mat[3][3] - 
+				mat[1][2] * mat[2][1]  * mat[3][3] -
 				mat[1][3] * mat[2][2]  * mat[3][1];
 	inv[0][1] =	mat[0][1]  * mat[2][3] * mat[3][2] +
 				mat[0][2]  * mat[2][1] * mat[3][3] +
@@ -261,7 +258,7 @@ std::vector<std::vector<double> > Decimator::invertMatrix(const std::vector<std:
 				mat[0][2]  * mat[2][3] * mat[3][0] +
 				mat[0][3]  * mat[2][0] * mat[3][2] -
 				mat[0][0]  * mat[2][3] * mat[3][2] -
-				mat[0][3] * mat[2][0] * mat[3][3] -
+				mat[0][2] * mat[2][0] * mat[3][3] -
 				mat[0][3] * mat[2][2] * mat[3][0];
 	inv[1][2] = mat[0][0]  * mat[1][3] * mat[3][2] +
 				mat[0][2]  * mat[1][0] * mat[3][3] +
@@ -273,27 +270,27 @@ std::vector<std::vector<double> > Decimator::invertMatrix(const std::vector<std:
 				mat[0][2]  * mat[1][3] * mat[2][0] +
 				mat[0][3]  * mat[1][0] * mat[2][2] -
 				mat[0][0]  * mat[1][3] * mat[2][2] -
-				mat[0][2] * mat[1][0] * mat[2][3] - 
+				mat[0][2] * mat[1][0] * mat[2][3] -
 				mat[0][3] * mat[1][2] * mat[2][0];
 	inv[2][0] = mat[1][0]  * mat[2][1] * mat[3][3] +
 				mat[1][1]  * mat[2][3] * mat[3][0] +
 				mat[1][3]  * mat[2][0] * mat[3][1] -
 				mat[1][0]  * mat[2][3] * mat[3][1] -
-				mat[1][1] * mat[2][0] * mat[3][3] - 
+				mat[1][1] * mat[2][0] * mat[3][3] -
 				mat[1][3] * mat[2][1] * mat[3][0];
 	inv[2][1] = mat[0][0]  * mat[2][3] * mat[3][1] +
 				mat[0][1]  * mat[2][0] * mat[3][3] +
 				mat[0][3]  * mat[2][1] * mat[3][0] -
 				mat[0][0]  * mat[2][1] * mat[3][3] -
-				mat[0][2] * mat[2][3] * mat[3][0] -
+				mat[0][1] * mat[2][3] * mat[3][0] -
 				mat[0][3] * mat[2][0] * mat[3][1];
 	inv[2][2] = mat[0][0]  * mat[1][1] * mat[3][3] +
-				mat[0][1]  * mat[1][3] * mat[3][1] +
+				mat[0][1]  * mat[1][3] * mat[3][0] +
 				mat[0][3]  * mat[1][0] * mat[3][1] -
 				mat[0][0]  * mat[0][3] * mat[3][1] -
 				mat[0][1] * mat[1][0] * mat[3][3] -
 				mat[0][3] * mat[1][1] * mat[3][0];
-	inv[3][2] = mat[0][0]  * mat[1][3] * mat[2][1] +
+	inv[2][3] = mat[0][0]  * mat[1][3] * mat[2][1] +
 				mat[0][1]  * mat[1][0] * mat[2][3] +
 				mat[0][3]  * mat[1][1] * mat[2][0] -
 				mat[0][0]  * mat[1][1] * mat[2][3] -
@@ -309,7 +306,7 @@ std::vector<std::vector<double> > Decimator::invertMatrix(const std::vector<std:
 				mat[0][1] * mat[2][2] * mat[3][0] +
 				mat[0][2] * mat[2][0] * mat[3][1] -
 				mat[0][0] * mat[2][2] * mat[3][1] -
-				mat[0][1] * mat[2][0] * mat[3][2] - 
+				mat[0][1] * mat[2][0] * mat[3][2] -
 				mat[0][2] * mat[2][1] * mat[3][0];
 	inv[3][2] = mat[0][0] * mat[1][2] * mat[3][1] +
 				mat[0][1] * mat[1][0] * mat[3][2] +
@@ -338,7 +335,7 @@ std::vector<std::vector<double> > Decimator::invertMatrix(const std::vector<std:
 
 					mat[0][3] * mat[1][0] * mat[2][2] * mat[3][1] +
 					mat[0][3] * mat[1][1] * mat[2][0] * mat[3][2] +
-					mat[0][3] * mat[1][2] * mat[2][1] * mat[3][0] +
+					mat[0][3] * mat[1][2] * mat[2][1] * mat[3][0] -
 
 					mat[0][0] * mat[1][1] * mat[2][3] * mat[3][2] -
 					mat[0][0] * mat[1][2] * mat[2][1] * mat[3][3] -

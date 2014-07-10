@@ -6,20 +6,6 @@
 
 #IncludeRegexTransform: 
 
-/home/fzhan/work/smf_view/Decimator.cpp
-cstdlib
--
-ctime
--
-climits
--
-cfloat
--
-cmath
--
-Decimator.h
-/home/fzhan/work/smf_view/Decimator.h
-
 /home/fzhan/work/smf_view/Decimator.h
 iostream
 -
@@ -27,6 +13,26 @@ string
 -
 SmfModel.h
 /home/fzhan/work/smf_view/SmfModel.h
+
+/home/fzhan/work/smf_view/MeshGui.cpp
+string
+-
+MeshGui.h
+/home/fzhan/work/smf_view/MeshGui.h
+
+/home/fzhan/work/smf_view/MeshGui.h
+iostream
+-
+GL/glut.h
+-
+GL/glui.h
+-
+SmfModel.h
+/home/fzhan/work/smf_view/SmfModel.h
+Subdivision.h
+/home/fzhan/work/smf_view/Subdivision.h
+Decimator.h
+/home/fzhan/work/smf_view/Decimator.h
 
 /home/fzhan/work/smf_view/SmfModel.h
 iostream
@@ -41,4 +47,18 @@ map
 -
 GL/glut.h
 -
+
+/home/fzhan/work/smf_view/Subdivision.h
+iostream
+-
+string
+-
+vector
+-
+set
+-
+map
+-
+SmfModel.h
+/home/fzhan/work/smf_view/SmfModel.h
 

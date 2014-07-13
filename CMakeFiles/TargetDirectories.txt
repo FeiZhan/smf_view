@@ -1,1 +1,1 @@
-/home/fzhan/work/smf_view/CMakeFiles/smf_view.dir
+/home/fzhan/work/meshlab/smf_view/CMakeFiles/smf_view.dir

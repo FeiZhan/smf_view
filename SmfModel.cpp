@@ -57,6 +57,7 @@ bool SmfModel::loadFile(const std::string &file)
 	}
 	else
 	{
+		std::cerr << "fail to load " << file << std::endl;
 		// fail to load
 		return false;
 	}
@@ -71,21 +72,52 @@ bool SmfModel::loadFile(const std::string &file)
 		std::istringstream iss(line.substr(1));
 		std::vector<GLfloat> vertex(3, 0.0);
 		std::vector<size_t> face(3, 0);
+		char temp;
+		double temp1;
 		// switch by the leading character
 		switch (line[0])
 		{
 		case 'v': // load vertices
-			iss >> vertex[0] >> vertex[1] >> vertex[2];
-			vertex_list.push_back(vertex);
+			if (line.size() < 2)
+			{
+				continue;
+			}
+			iss.str(line.substr(2));
+			switch (line[2])
+			{
+			case 't': // texture
+				break;
+			case 'n': // normal
+				break;
+			case ' ': // vertex
+			case '\t':
+			default:
+				for (size_t i = 0; i < 3; ++ i)
+				{
+					iss >> vertex[i];
+					vertex[i] /= 1.0;
+				}
+				vertex_list.push_back(vertex);
+				break;
+			}
 			break;
 		case 'f': // load faces
-			iss >> face[0] >> face[1] >> face[2];
 			for (size_t i = 0; i < 3; ++ i)
 			{
+				iss >> face[i];
 				-- face[i];
+				while ('/' == iss.peek())
+				{
+					iss >> temp;
+					if ('/' != iss.peek())
+					{
+						iss >> temp1;
+					}
+				}
 			}
 			face_list.push_back(face);
 			break;
+		case 'g': // group
 		case '#':
 		default:
 			break;

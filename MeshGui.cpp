@@ -60,10 +60,16 @@ int MeshGui::run(int argc, char *argv[])
 		// set default file name
 		strcpy(filetext, argv[1]);
 		std::string name(filetext);
-		name = std::string("smf/") + name + std::string(".smf");
-		strcpy(filename, name.c_str());
+		strcpy(MeshGui::filename, name.c_str());
 		// initialization of SMF model
-		smf_model.loadFile(MeshGui::filename);
+		bool flag = smf_model.loadFile(MeshGui::filename);
+		if (! flag)
+		{
+			// set default extension
+			name = std::string("smf/") + name + std::string(".smf");
+			strcpy(MeshGui::filename, name.c_str());
+			smf_model.loadFile(MeshGui::filename);
+		}
 	}
 	// debug
 	//std::cout << smf_model << std::endl;
